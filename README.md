@@ -1,35 +1,25 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
+<h1 align="center">Fitness Tracker</h1>
 
-### Folosiți template-ul corespunzător grupei voastre!
+***Descriere proiect:*** Fitness Tracker este o aplicație de monitorizare a activităților sportive în care utilizatorul își poate crea planuri personalizate de antrenament, urmări progresul fizic și își poate seta obiective de fitness. Aplicația permite gestionarea diferitelor tipuri de exerciții, crearea de workout-uri și vizualizarea statisticilor de performanță.
 
-| Laborant  | Link template                                |
-|-----------|----------------------------------------------|
-| Dragoș B  | https://github.com/Ionnier/oop-template      |
-| Tiberiu M | https://github.com/MaximTiberiu/oop-template |
-| Marius MC | https://github.com/mcmarius/oop-template     |
-
-### Important!
-
-Aveți voie cu cod generat de modele de limbaj la care nu ați contribuit semnificativ doar dacă documentați riguros acest proces.
-Codul generat pus "ca să fie"/pe care nu îl înțelegeți se punctează doar pentru puncte bonus, doar în contextul
-în care oferă funcționalități ajutătoare și doar dacă are sens.
-
-Codul din proiect trebuie să poată fi ușor de înțeles și de modificat de către altcineva. Pentru detalii, veniți la ore.
-
-O cerință nu se consideră îndeplinită dacă este realizată doar prin cod generat.
-
-- **Fără cod de umplutură/fără sens!**
-- **Fără copy-paste!**
-- **Fără variabile globale!**
-- **Fără atribute publice!**
-- **Pentru T2 și T3, fără date în cod!** Datele vor fi citite din fișier, aveți exemple destule.
-- **Obligatoriu** fișiere cu date mai multe din care să citiți, obligatoriu cu biblioteci externe: fișiere (local sau server) sau baze de date
-- obligatoriu (TBD) să integrați cel puțin două biblioteci externe pe lângă cele pentru stocare
+<pre align="center">
+***********************************************************************
+* _____ _ _                         _____               _             *
+*|  ___(_) |_ _ __   ___  ___ ___  |_   _| __ __ _  ___| | _____ _ __ *
+*| |_  | | __| '_ \ / _ \/ __/ __|   | || '__/ _` |/ __| |/ / _ \ '__|*
+*|  _| | | |_| | | |  __/\__ \__ \   | || | | (_| | (__|   <  __/ |   *
+*|_|   |_|\__|_|_|_|\___||___/___/   |_||_| _\__,_|\___|_|\_\___|_|   *
+*(_)_ __       / ___| _     _       |  _ \ / _ \ / _ \                *
+*| | '_ \     | |   _| |_ _| |_     | |_) | | | | | | |               *
+*| | | | |    | |__|_   _|_   _|    |  __/| |_| | |_| |               *
+*|_|_| |_|     \____||_|   |_|      |_|    \___/ \___/                *
+***********************************************************************
+</pre>
 
 ### Tema 0
 
-- [ ] Nume proiect (poate fi schimbat ulterior)
-- [ ] Scurtă descriere a temei alese, ce v-ați propus să implementați
+- [✅] Nume proiect (poate fi schimbat ulterior)
+- [✅] Scurtă descriere a temei alese, ce v-ați propus să implementați
 
 ## Tema 1
 
@@ -93,92 +83,3 @@ O cerință nu se consideră îndeplinită dacă este realizată doar prin cod g
 <!-- - [ ] o specializare pe funcție/clasă șablon -->
 - [ ] tag de `git` pe commit cu **toate bifele**: de exemplu `v0.3` sau `v1.0`
 - [ ] code review #3 2 proiecte
-
-## Instrucțiuni de compilare
-
-Proiectul este configurat cu CMake.
-
-Instrucțiuni pentru terminal:
-
-1. Pasul de configurare
-```sh
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
-# sau ./scripts/cmake.sh configure
-```
-
-Sau pe Windows cu GCC folosind Git Bash:
-```sh
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -G Ninja
-# sau ./scripts/cmake.sh configure -g Ninja
-```
-
-Pentru a configura cu ASan, avem opțiunea `-DUSE_ASAN=ON` (nu merge pe Windows cu GCC):
-```sh
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DUSE_ASAN=ON
-# sau ./scripts/cmake.sh configure -e "-DUSE_ASAN=ON"
-```
-
-
-La acest pas putem cere să generăm fișiere de proiect pentru diverse medii de lucru.
-
-
-2. Pasul de compilare
-```sh
-cmake --build build --config Debug --parallel 6
-# sau ./scripts/cmake.sh build
-```
-
-Cu opțiunea `parallel` specificăm numărul de fișiere compilate în paralel.
-
-
-3. Pasul de instalare (opțional)
-```sh
-cmake --install build --config Debug --prefix install_dir
-# sau ./scripts/cmake.sh install
-```
-
-Vezi și [`scripts/cmake.sh`](scripts/cmake.sh).
-
-Observație: folderele `build/` și `install_dir/` sunt adăugate în fișierul `.gitignore` deoarece
-conțin fișiere generate și nu ne ajută să le versionăm.
-
-
-## Instrucțiuni pentru a rula executabilul
-
-Există mai multe variante:
-
-1. Din directorul de build (implicit `build`). Executabilul se află la locația `./build/oop` după ce a fost rulat pasul de compilare al proiectului (`./scripts/cmake.sh build` - pasul 2 de mai sus).
-
-```sh
-./build/oop
-```
-
-2. Din directorul `install_dir`. Executabilul se află la locația `./install_dir/bin/oop` după ce a fost rulat pasul de instalare (`./scripts/cmake.sh install` - pasul 3 de mai sus).
-
-```sh
-./install_dir/bin/oop
-```
-
-3. Rularea programului folosind Valgrind se poate face executând script-ul `./scripts/run_valgrind.sh` din rădăcina proiectului. Pe Windows acest script se poate rula folosind WSL (Windows Subsystem for Linux). Valgrind se poate rula în modul interactiv folosind: `RUN_INTERACTIVE=true ./scripts/run_valgrind.sh`
-
-Implicit, nu se rulează interactiv, iar datele pentru `std::cin` sunt preluate din fișierul `tastatura.txt`.
-
-```sh
-RUN_INTERACTIVE=true ./scripts/run_valgrind.sh
-# sau
-./scripts/run_valgrind.sh
-```
-
-4. Pentru a rula executabilul folosind ASan, este nevoie ca la pasul de configurare (vezi mai sus) să fie activat acest sanitizer. Ar trebui să meargă pe macOS și Linux. Pentru Windows, ar merge doar cu MSVC (nerecomandat).
-
-Comanda este aceeași ca la pasul 1 sau 2. Nu merge combinat cu Valgrind.
-
-```sh
-./build/oop
-# sau
-./install_dir/bin/oop
-```
-
-## Resurse
-
-- adăugați trimiteri **detaliate** către resursele externe care v-au ajutat sau pe care le-ați folosit
