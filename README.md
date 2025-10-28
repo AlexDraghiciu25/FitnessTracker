@@ -1,6 +1,6 @@
-**FitnessTracker**
+# FitnessTracker
 
-Fitness Tracker este o aplicație de monitorizare a activităților sportive în care utilizatorul își poate crea planuri personalizate de antrenament, urmări progresul fizic și își poate seta obiective de fitness. Aplicația permite gestionarea diferitelor tipuri de exerciții, crearea de workout-uri și vizualizarea statisticilor de performanță.
+**Fitness Tracker** este o aplicație de monitorizare a activităților sportive în care utilizatorul își poate crea planuri personalizate de antrenament, urmări progresul fizic și își poate seta obiective de fitness. Aplicația permite gestionarea diferitelor tipuri de exerciții, crearea de workout-uri și vizualizarea statisticilor de performanță.
 
 # Nu primesc notă pentru că nu am pus titlu și descriere
 
