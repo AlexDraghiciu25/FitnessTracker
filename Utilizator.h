@@ -18,140 +18,40 @@ class Utilizator {
         Obiectiv obiectivCurent;
     public:
         // Constr def
-        Utilizator() = default;
+        Utilizator();
 
         //Constr cu param
         Utilizator(const std::string& nume, int varsta,
-            double greutate_kg, double inaltime_cm, const Obiectiv& obiectiv) {
-            this->nume = nume;
-            this->varsta = varsta;
-            this->greutate_kg = greutate_kg;
-            this->inaltime_cm = inaltime_cm;
-            this->numar_antrenamente_facute = 0;        // Le-am pus 0 deoarece la fiecare utilizator creat,
-            this->calorii_arse = 0;                     // nu ar trebui sa aiba deja antrenamente facute sau calorii arse.
-            this->obiectivCurent = obiectiv;
-        }
+            double greutate_kg, double inaltime_cm, const Obiectiv& obiectiv);
 
         // Constr de cop
-        Utilizator(const Utilizator& utilizator) {
-            this->nume = utilizator.nume;
-            this->varsta = utilizator.varsta;
-            this->greutate_kg = utilizator.greutate_kg;
-            this->inaltime_cm = utilizator.inaltime_cm;
-            this->numar_antrenamente_facute = utilizator.numar_antrenamente_facute;
-            this->calorii_arse = utilizator.calorii_arse;
-            this->obiectivCurent = utilizator.obiectivCurent;
-        }
+        Utilizator(const Utilizator& utilizator);
 
-        Utilizator& operator=(const Utilizator& utilizator) {
-                this->nume = utilizator.nume;
-                this->varsta = utilizator.varsta;
-                this->greutate_kg = utilizator.greutate_kg;
-                this->inaltime_cm = utilizator.inaltime_cm;
-                this->numar_antrenamente_facute = utilizator.numar_antrenamente_facute;
-                this->calorii_arse = utilizator.calorii_arse;
-                this->obiectivCurent = utilizator.obiectivCurent;
-                return *this;
-        }
+        Utilizator& operator=(const Utilizator& utilizator);
 
-        ~Utilizator() = default;
+        ~Utilizator();
 
         // Getteri
-        std::string getNume() const {
-            return this->nume;
-        }
-
-        int getVarsta() const {
-            return this->varsta;
-        }
-
-        double getGreutateKg() const {
-            return this->greutate_kg;
-        }
-
-        double getIntaltime_cm() const {
-            return this->inaltime_cm;
-        }
-
-        const Obiectiv& getObiectivCurent() const {
-            return this->obiectivCurent;
-        }
+        std::string getNume() const;
+        int getVarsta() const;
+        double getGreutateKg() const;
+        double getIntaltime_cm() const;
+        const Obiectiv& getObiectivCurent() const;
 
         // Setteri
-        void setGreutateKg(double kg) {
-            this->greutate_kg = kg;
-            this->actualizeazaObiectivGreutate(kg);
-        }
+        void setGreutateKg(double kg);
+        void setInaltime_cm(double cm);
+        void setObiectivCurent(const Obiectiv& obiectiv);
 
-        void setInaltime_cm(double cm) {
-            this->inaltime_cm = cm;
-        }
+        void actualizeazaObiectivGreutate(double greutate);
 
-        void setObiectivCurent(const Obiectiv& obiectiv) {
-            this->obiectivCurent = obiectiv;
-        }
+        double calculezBMI() const;
 
-        void actualizeazaObiectivGreutate(double greutate) {
-            if (obiectivCurent.getTipObiectiv() == "Pierdere greutate" ||
-                obiectivCurent.getTipObiectiv() == "Castig masa musculara") {
-                obiectivCurent.setValoare_curenta(greutate);
-            }
-        }
+        friend std::ostream& operator<<(std::ostream& os, const Utilizator& utilizator);
 
-        double calculezBMI() const {
-            double inaltime_in_metri = getIntaltime_cm() / 100.0;
-            return getGreutateKg() / (inaltime_in_metri * inaltime_in_metri);
-        }
+        void adaug_antrenament_completat(const Antrenament& antr);
 
-        friend std::ostream& operator<<(std::ostream& os, const Utilizator& utilizator) {
-            os << "Nume: " << utilizator.nume << "\n";
-            os << "Varsta: " << utilizator.varsta << "\n";
-            os << "GreutateKg: " << utilizator.greutate_kg << "\n";
-            os << "Intaltime_cm: " << utilizator.inaltime_cm << "\n";
-            os << "Numar antrenamente facute: " << utilizator.numar_antrenamente_facute << "\n";
-            os << "Numar calorii arse: " << utilizator.calorii_arse << "\n";
-            os << "Obiectiv curent: " << utilizator.obiectivCurent << "\n";
-
-            return os;
-        }
-
-        void adaug_antrenament_completat(const Antrenament& antr) {
-            numar_antrenamente_facute++;
-            calorii_arse += antr.calculeazaCaloriiTotaleAntrenament();
-            std::cout << "Felicitari! utilizatorul cu numele: " << getNume() << " a ars " << calorii_arse << " kcal.!\n";
-
-            // NOU: Actualizeaza Obiectivul de Anduranta
-            if (obiectivCurent.getTipObiectiv() == "Anduranta") {
-                // Presupunem ca Obiectivul "Anduranta" urmareste numarul de antrenamente.
-                // Incrementezi valoarea curenta cu 1.
-                obiectivCurent.setValoare_curenta(obiectivCurent.getValoare_curenta() + 1);
-            }
-        }
-
-        void afisareProfilUtilizator() {
-            std::cout << "Numele utilizatorului este: " << nume << "\n";
-            std::cout << "Varsta utilizatorului este: " << varsta << "\n";
-            std::cout << "Greutatea utilizatorului in kg: " << greutate_kg << "\n";
-            std::cout << "Intaltimea utilizatorului in cm: " << inaltime_cm << "\n";
-            std::cout << "Numar antrenamente facute: " << numar_antrenamente_facute << "\n";
-            std::cout << "Numar calorii arse: " << calorii_arse << "\n";
-
-            if (numar_antrenamente_facute <= 3)
-                std::cout << "Felicitari! Ai inceput bine, "
-                             "dar poti incerca sa fi mai consistent!\n";
-            else if (numar_antrenamente_facute > 3 && numar_antrenamente_facute <= 5)
-                std::cout << "Felicitari! Continua tot asa si "
-                             "rezultatele nu vor inceta sa apara!\n";
-            else if ( numar_antrenamente_facute > 5)
-                std::cout << "Felicitari! Te pregatesti extrem de intens"
-                             ", cu siguranta vei castiga tot ce ti-ai propus!\n";
-
-            std::cout << "Progres: " << obiectivCurent.CalculeazaProgrez() << "\n";
-            if (obiectivCurent.getObiectiv_atins())
-                std::cout << "STATUS: Obiectivul " << obiectivCurent.getDescriere() << "a fost atins! \n";
-            else
-                std::cout << "STATUS: Inca mai este de muncit la oviectivul " << obiectivCurent.getDescriere() << "\n";
-        }
+        void afisareProfilUtilizator();
 };
 
 #endif //OOP_UTILIZATOR_H

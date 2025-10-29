@@ -1,5 +1,4 @@
 #include <iostream>
-#include <algorithm>
 #include  <string>
 #include "Exercitiu.h"
 #include "Antrenament.h"
