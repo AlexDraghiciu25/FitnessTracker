@@ -49,12 +49,12 @@ double Antrenament::calculeazaCaloriiTotaleAntrenament() const {
     return total;
 }
 
-void Antrenament::AfisareAntrenamentComplet() const {
-    for (int i = 0; i < nrExercitii; i++){
-        std::cout << "Exercitiul cu numarul " << i + 1 << ":\n" << this->exercitii[i] << ".\n";
-        std::cout << "Durata acestui exercitiu: " << exercitii[i].get_durata() << " min.\n";
-    }
-}
+// void Antrenament::AfisareAntrenamentComplet() const {
+//     for (int i = 0; i < nrExercitii; i++){
+//         std::cout << "Exercitiul cu numarul " << i + 1 << ":\n" << this->exercitii[i] << ".\n";
+//         std::cout << "Durata acestui exercitiu: " << exercitii[i].get_durata() << " min.\n";
+//     }
+// }
 
 // Apelez destructorul pentru a elibera memoria dinamica
 Antrenament::~Antrenament() = default;     // vect se curata autom
