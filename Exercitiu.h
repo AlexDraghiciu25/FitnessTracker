@@ -8,8 +8,8 @@ class Exercitiu {
     private:
         std::string nume;   // numele exercitiului, EX: Flotari
         std::string categorie;      // numele categoriei, EX:Cardio, Forta, etc
-        double calorii_arse_pe_min;
-        int durata;     // durata in min a exercitiului
+        double calorii_arse_pe_min{};
+        int durata{};     // durata in min a exercitiului
         std::string dificultate;    //dificultatea individuala pe ex
     public:
         Exercitiu();
@@ -18,20 +18,20 @@ class Exercitiu {
             double calorii_arse_pe_min, int durata,const std::string& dificultate);
 
         /// Getters
-        std::string get_nume() const;
-        std::string get_categorie() const;
-        double get_calorii_arse_pe_min() const;
-        int get_durata() const;
-        std::string get_dificultate() const;
+        [[nodiscard]] std::string get_nume() const;
+        [[nodiscard]] std::string get_categorie() const;
+        [[nodiscard]] double get_calorii_arse_pe_min() const;
+        [[nodiscard]] int get_durata() const;
+        [[nodiscard]] std::string get_dificultate() const;
 
         /// Setters
-        void set_nume(std::string nume);
+        void set_nume(const std::string &nume);
         void set_categorie(std::string categorie);
         void set_calorii_arse_pe_min(double calorii_arse_pe_min);
         void set_durata(int durata);
-        void set_dificultate(std::string dificultate);
+        void set_dificultate(const std::string &dificultate);
 
-        double calculeazaCaloriiTotale() const;
+        [[nodiscard]] double calculeazaCaloriiTotale() const;
         void afisare_detaliata() const;
 
         friend std::ostream& operator<<(std::ostream& os, const Exercitiu& exercitiu);

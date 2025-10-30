@@ -29,16 +29,7 @@ Utilizator::Utilizator(const Utilizator& utilizator) {
     this->obiectivCurent = utilizator.obiectivCurent;
 }
 
-Utilizator& Utilizator::operator=(const Utilizator& utilizator) {
-        this->nume = utilizator.nume;
-        this->varsta = utilizator.varsta;
-        this->greutate_kg = utilizator.greutate_kg;
-        this->inaltime_cm = utilizator.inaltime_cm;
-        this->numar_antrenamente_facute = utilizator.numar_antrenamente_facute;
-        this->calorii_arse = utilizator.calorii_arse;
-        this->obiectivCurent = utilizator.obiectivCurent;
-        return *this;
-}
+Utilizator &Utilizator::operator=(const Utilizator &utilizator)= default;
 
 Utilizator::~Utilizator() = default;
 
@@ -114,7 +105,7 @@ void Utilizator::adaug_antrenament_completat(const Antrenament& antr) {
     }
 }
 
-void Utilizator::afisareProfilUtilizator() {
+void Utilizator::afisareProfilUtilizator() const {
     std::cout << "Numele utilizatorului este: " << nume << "\n";
     std::cout << "Varsta utilizatorului este: " << varsta << "\n";
     std::cout << "Greutatea utilizatorului in kg: " << greutate_kg << "\n";
@@ -125,10 +116,10 @@ void Utilizator::afisareProfilUtilizator() {
     if (numar_antrenamente_facute <= 3)
         std::cout << "Felicitari! Ai inceput bine, "
                      "dar poti incerca sa fi mai consistent!\n";
-    else if (numar_antrenamente_facute > 3 && numar_antrenamente_facute <= 5)
+    else if (numar_antrenamente_facute <= 5)
         std::cout << "Felicitari! Continua tot asa si "
                      "rezultatele nu vor inceta sa apara!\n";
-    else if ( numar_antrenamente_facute > 5)
+    else
         std::cout << "Felicitari! Te pregatesti extrem de intens"
                      ", cu siguranta vei castiga tot ce ti-ai propus!\n";
 

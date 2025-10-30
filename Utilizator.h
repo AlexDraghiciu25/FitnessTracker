@@ -9,11 +9,11 @@
 class Utilizator {
     private:
         std::string nume;
-        int varsta;
-        double greutate_kg;
-        double inaltime_cm;
-        int numar_antrenamente_facute;
-        double calorii_arse;
+        int varsta{};
+        double greutate_kg{};
+        double inaltime_cm{};
+        int numar_antrenamente_facute{};
+        double calorii_arse{};
 
         Obiectiv obiectivCurent;
     public:
@@ -32,11 +32,11 @@ class Utilizator {
         ~Utilizator();
 
         // Getteri
-        std::string getNume() const;
-        int getVarsta() const;
-        double getGreutateKg() const;
-        double getIntaltime_cm() const;
-        const Obiectiv& getObiectivCurent() const;
+        [[nodiscard]] std::string getNume() const;
+        [[nodiscard]] int getVarsta() const;
+        [[nodiscard]] double getGreutateKg() const;
+        [[nodiscard]] double getIntaltime_cm() const;
+        [[nodiscard]] const Obiectiv& getObiectivCurent() const;
 
         // Setteri
         void setGreutateKg(double kg);
@@ -45,13 +45,13 @@ class Utilizator {
 
         void actualizeazaObiectivGreutate(double greutate);
 
-        double calculezBMI() const;
+        [[nodiscard]] double calculezBMI() const;
 
         friend std::ostream& operator<<(std::ostream& os, const Utilizator& utilizator);
 
         void adaug_antrenament_completat(const Antrenament& antr);
 
-        void afisareProfilUtilizator();
+        void afisareProfilUtilizator() const;
 };
 
 #endif //OOP_UTILIZATOR_H

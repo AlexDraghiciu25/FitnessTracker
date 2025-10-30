@@ -1,12 +1,14 @@
 #include <iostream>
 #include  <string>
+#include <utility>
 #include <vector>
+#include  <algorithm>
 #include  "Obiectiv.h"
 
 Obiectiv::Obiectiv() = default;
 
-Obiectiv::Obiectiv(const std::string descriere,const std::string tipObiectiv, double valoare_dorita,
-    double valoare_initiala, double valoare_curenta, const std::string data_limita, bool obiectiv_atins) {
+Obiectiv::Obiectiv(const std::string &descriere,const std::string &tipObiectiv, double valoare_dorita,
+    double valoare_initiala, double, const std::string &data_limita, bool) {
     this->descriere = descriere;
     this->tipObiectiv = tipObiectiv;
     this->valoare_dorita = valoare_dorita;
@@ -26,17 +28,7 @@ Obiectiv::Obiectiv(const Obiectiv& obiectiv) {
     this->obiectiv_atins = obiectiv.obiectiv_atins;
 }
 
-Obiectiv& Obiectiv::operator=(const Obiectiv& obiectiv) {
-    this->descriere = obiectiv.descriere;
-    this->tipObiectiv = obiectiv.tipObiectiv;
-    this->valoare_dorita = obiectiv.valoare_dorita;
-    this->valoare_initiala = obiectiv.valoare_initiala;
-    this->valoare_curenta = obiectiv.valoare_curenta;
-    this->data_limita = obiectiv.data_limita;
-    this->obiectiv_atins = obiectiv.obiectiv_atins;
-
-    return *this;
-}
+Obiectiv& Obiectiv::operator=(const Obiectiv& obiectiv) = default;
 
 std::string Obiectiv::getDescriere() const{
     return this->descriere;
@@ -66,28 +58,28 @@ bool Obiectiv::getObiectiv_atins() const{
     return this->obiectiv_atins;
 }
 
-void Obiectiv::setDescriere(const std::string descriere) {
-    this->descriere = descriere;
+void Obiectiv::setDescriere(const std::string &descriere_noua) {
+    this->descriere = descriere_noua;
 }
 
-void Obiectiv::setTipObiectiv(const std::string tipObiectiv) {
-    this->tipObiectiv = tipObiectiv;
+void Obiectiv::setTipObiectiv(const std::string &tipObiectiv_nou) {
+    this->tipObiectiv = tipObiectiv_nou;
 }
 
-void Obiectiv::setValoare_dorita(double valoare_dorita) {
-    this->valoare_dorita = valoare_dorita;
+void Obiectiv::setValoare_dorita(double valoare_dorita_noua) {
+    this->valoare_dorita = valoare_dorita_noua;
 }
 
-void Obiectiv::setValoare_initiala(double valoare_initiala) {
-    this->valoare_initiala = valoare_initiala;
+void Obiectiv::setValoare_initiala(double valoare_initiala_noua) {
+    this->valoare_initiala = valoare_initiala_noua;
 }
 
-void Obiectiv::setValoare_curenta(double valoare_curenta) {
-    this->valoare_curenta = valoare_curenta;
+void Obiectiv::setValoare_curenta(double valoare_curenta_noua) {
+    this->valoare_curenta = valoare_curenta_noua;
 }
 
-void Obiectiv::setDataLimita(std::string data_limita) {
-    this->data_limita = data_limita;
+void Obiectiv::setDataLimita(std::string data_limita_noua) {
+    this->data_limita = std::move(data_limita_noua);
 }
 
 double Obiectiv::CalculeazaProgrez() const {

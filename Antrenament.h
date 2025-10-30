@@ -10,9 +10,9 @@ class Antrenament {
     private:
         std::string nume;
         std::vector<Exercitiu> exercitii;    // Array-ul cu toata lista de exercitii
-        int nrExercitii;
+        int nrExercitii{};
         std::string nivel;      // dific pe intreg antr
-        int durataTotala;   //timpul petrecut in min pentru toate ex adunat
+        int durataTotala{};   //timpul petrecut in min pentru toate ex adunat
     public:
         Antrenament();    //Constr def
 
@@ -25,14 +25,14 @@ class Antrenament {
         // operator de atriburie(modif ob exist)
         Antrenament& operator=(const Antrenament& antr);
 
-        std::string getNume() const;
-        int get_nrExercitii() const;
+        [[nodiscard]] std::string getNume() const;
+        [[nodiscard]] int get_nrExercitii() const;
 
         void adaugExercitiu(const Exercitiu& ex);
 
-        int calculeazaDurataAntrenament() const;
+        [[nodiscard]] int calculeazaDurataAntrenament() const;
 
-        double calculeazaCaloriiTotaleAntrenament() const;
+        [[nodiscard]] double calculeazaCaloriiTotaleAntrenament() const;
 
         void AfisareAntrenamentComplet() const;
 

@@ -21,15 +21,7 @@ Antrenament::Antrenament(const Antrenament& antr) {
 }
 
 // operator de atriburie(modif ob exist)
-Antrenament& Antrenament::operator=(const Antrenament& antr) {
-    this->nume = antr.nume;
-    this->nivel = antr.nivel;
-    this->nrExercitii = antr.nrExercitii;
-    this->durataTotala = antr.durataTotala;
-    this->exercitii = antr.exercitii;
-
-    return *this;
-}
+Antrenament& Antrenament::operator=(const Antrenament& antr) = default;
 
 std::string Antrenament::getNume() const {
     return this->nume;

@@ -1,5 +1,7 @@
 #include "Exercitiu.h"
 
+#include <utility>
+
 Exercitiu::Exercitiu() = default;
 
 Exercitiu::Exercitiu(const std::string& nume,const std::string& categorie,
@@ -33,24 +35,24 @@ std::string Exercitiu::get_dificultate() const{
 }
 
 /// Setters
-void Exercitiu::set_nume(std::string nume) {
-    this->nume = nume;
+void Exercitiu::set_nume(const std::string &nume_nou) {
+    this->nume = nume_nou;
 }
 
-void Exercitiu::set_categorie(std::string categorie) {
-    this->categorie = categorie;
+void Exercitiu::set_categorie(std::string categorie_noua) {
+    this->categorie = std::move(categorie_noua);
 }
 
-void Exercitiu::set_calorii_arse_pe_min(double calorii_arse_pe_min) {
-    this->calorii_arse_pe_min = calorii_arse_pe_min;
+void Exercitiu::set_calorii_arse_pe_min(const double calorii_arse_pe_min_nou) {
+    this->calorii_arse_pe_min = calorii_arse_pe_min_nou;
 }
 
-void Exercitiu::set_durata(int durata) {
-    this->durata = durata;
+void Exercitiu::set_durata(const int durata_noua) {
+    this->durata = durata_noua;
 }
 
-void Exercitiu::set_dificultate(std::string dificultate) {
-    this->dificultate = dificultate;
+void Exercitiu::set_dificultate(const std::string &dificultate_noua) {
+    this->dificultate = dificultate_noua;
 }
 
 double Exercitiu::calculeazaCaloriiTotale() const{
