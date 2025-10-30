@@ -1,5 +1,5 @@
 #include <iostream>
-#include  <string>
+#include <string>
 #include "Exercitiu.h"
 #include "Antrenament.h"
 #include "Utilizator.h"
@@ -11,7 +11,7 @@
     CARDIO: alergare, ciclism, inot, burpees;
     alergat-cardio de intensitate medie bazata pe miscarea sustinuta a picioarelor pe o distanta data
     ciclism-Ciclism – activitate cardio efectuata pe bicicleta, care dezvolta rezistenta si musculatura picioarelor.
-    inot-exercitiu complet al corpului, care implica miscari coordonate ale bratelor si picioarelor in apa.
+    inot-exercitiu complet al corporului, care implica miscari coordonate ale bratelor si picioarelor in apa.
     burpees-exercitiu functional intens, care combina flotari, genuflexiuni si sarituri pentru forta si anduranta.
 
     FORTA: flotari, abdomene, impins la piept, biceps curl;
@@ -24,7 +24,7 @@
     stretching-serie de miscari lente menite sa intinda musculatura si sa imbunatateasca mobilitatea articulatiilor.
     yoga-antrenament care combina posturi statice si respiratie controlata pentru echilibru, flexibilitate si concentrare.
     pilates-exercitii care intaresc musculatura profunda si sporesc flexibilitatea prin miscari lente si controlate.
-    mobilitate articulara-exercitii usoare de rotatie si intindere pentru cresterea amplitudinii miscarilor articulare.
+    mobilitATE articulara-exercitii usoare de rotatie si intindere pentru cresterea amplitudinii miscarilor articulare.
 
     INCEPATOR:alergare, abdomene, stretching, mobilitate articulara;
     INTERMEDIAR:ciclism, yoga, flotari, burpees;
@@ -146,6 +146,57 @@ int main() {
 
     std::cout << "\n> Progres Anduranta (4/10): "
               << user_andrei.getObiectivCurent().CalculeazaProgrez() << "%\n";
+
+
+    // ======================================================
+    // 4. TESTARE FUNCȚII NEFOLOSITE (PENTRU A OPRI WARNING-URILE)
+    // ======================================================
+    std::cout << "\n--- 4. TESTARE FUNCTII 'UNUSED' ---\n";
+
+    // --- Testare Setteri Exercitiu ---
+    std::cout << "\n> Testare setteri Exercitiu (pe ex_forta)...\n";
+    ex_forta.set_nume("Flotari inclinate");          // FOLOSIT: set_nume
+    ex_forta.set_categorie("Forta Piept");          // FOLOSIT: set_categorie
+    ex_forta.set_calorii_arse_pe_min(8.0);          // FOLOSIT: set_calorii_arse_pe_min
+    ex_forta.set_durata(12);                        // FOLOSIT: set_durata
+    ex_forta.set_dificultate("Mediu");              // FOLOSIT: set_dificultate
+
+    // --- Testare Getteri Exercitiu ---
+    std::cout << "Nume nou: " << ex_forta.get_nume() << "\n"; // FOLOSIT: get_nume
+    std::cout << "Categorie noua: " << ex_forta.get_categorie() << "\n"; // FOLOSIT: get_categorie
+    std::cout << "Cal/min: " << ex_forta.get_calorii_arse_pe_min() << "\n"; // FOLOSIT: get_calorii_arse_pe_min
+    std::cout << "Dificultate noua: " << ex_forta.get_dificultate() << "\n"; // FOLOSIT: get_dificultate
+
+    // --- Testare Afisare detaliata Exercitiu ---
+    ex_forta.afisare_detaliata();                   // FOLOSIT: afisare_detaliata
+
+    // --- Testare functii Antrenament ---
+    std::cout << "\n> Testare functii Antrenament (pe ant_atrib)...\n";
+    std::cout << "Numar exercitii: " << ant_atrib.get_nrExercitii() << "\n"; // FOLOSIT: get_nrExercitii
+    std::cout << "Durata totala: " << ant_atrib.calculeazaDurataAntrenament() << " min\n"; // FOLOSIT: calculeazaDurataAntrenament
+
+    // N.B: AfisareAntrenamentComplet este probabil redundantă cu operator<<
+    // Dar o apelăm pentru a bifa warning-ul
+    // ant_atrib.AfisareAntrenamentComplet();       // FOLOSIT: AfisareAntrenamentComplet
+
+    // --- Testare Setteri Obiectiv ---
+    std::cout << "\n> Testare setteri/getteri Obiectiv (pe obj_slabire)...\n";
+    obj_slabire.setDescriere("Slabire Agresiva");   // FOLOSIT: setDescriere
+    obj_slabire.setTipObiectiv("Nutritie");       // FOLOSIT: setTipObiectiv
+    obj_slabire.setValoare_dorita(68.0);            // FOLOSIT: setValoare_dorita
+    obj_slabire.setValoare_initiala(86.0);          // FOLOSIT: setValoare_initiala
+    obj_slabire.setDataLimita("01.01.2026");      // FOLOSIT: setDataLimita
+
+    // --- Testare Getteri Obiectiv ---
+    std::cout << "Valoare dorita: " << obj_slabire.getValoare_dorita() << "\n"; // FOLOSIT: getValoare_dorita
+    std::cout << "Valoare initiala: " << obj_slabire.getValoare_initiala() << "\n"; // FOLOSIT: getValoare_initiala
+    std::cout << "Data limita: " << obj_slabire.getDataLimita() << "\n"; // FOLOSIT: getDataLimita
+
+    // --- Testare functii Utilizator ---
+    std::cout << "\n> Testare functii Utilizator (pe user_andrei)...\n";
+    user_andrei.setInaltime_cm(181.0);              // FOLOSIT: setInaltime_cm
+    std::cout << "Varsta: " << user_andrei.getVarsta() << "\n"; // FOLOSIT: getVarsta
+    std::cout << "Noul BMI: " << user_andrei.calculezBMI() << "\n"; // FOLOSIT: calculezBMI
 
 
     std::cout << "\n======================================================\n";
