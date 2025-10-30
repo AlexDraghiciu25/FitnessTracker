@@ -18,11 +18,11 @@ class Exercitiu {
             double calorii_arse_pe_min, int durata,const std::string& dificultate);
 
         /// Getters
-        [[nodiscard]] std::string get_nume() const;
-        [[nodiscard]] std::string get_categorie() const;
+        [[nodiscard]] const std::string& get_nume() const;
+        [[nodiscard]] const std::string& get_categorie() const;
         [[nodiscard]] double get_calorii_arse_pe_min() const;
         [[nodiscard]] int get_durata() const;
-        [[nodiscard]] std::string get_dificultate() const;
+        [[nodiscard]] const std::string& get_dificultate() const;
 
         /// Setters
         void set_nume(const std::string &nume);

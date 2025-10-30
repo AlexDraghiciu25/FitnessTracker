@@ -14,12 +14,12 @@ Exercitiu::Exercitiu(const std::string& nume,const std::string& categorie,
 }
 
         /// Getters
-std::string Exercitiu::get_nume() const{
-    return nume;
+const std::string& Exercitiu::get_nume() const{
+    return this->nume;
 }
 
-std::string Exercitiu::get_categorie() const{
-    return categorie;
+const std::string& Exercitiu::get_categorie() const{
+    return this->categorie;
 }
 
 double Exercitiu::get_calorii_arse_pe_min() const{
@@ -30,8 +30,8 @@ int Exercitiu::get_durata() const{
     return durata;
 }
 
-std::string Exercitiu::get_dificultate() const{
-        return dificultate;
+const std::string& Exercitiu::get_dificultate() const{
+        return this->dificultate;
 }
 
 /// Setters
