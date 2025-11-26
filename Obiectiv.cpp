@@ -5,9 +5,17 @@
 #include  <algorithm>
 #include  "Obiectiv.h"
 
-Obiectiv::Obiectiv() = default;
+// Obiectivul default
+Obiectiv::Obiectiv()
+    :descriere("Obiectiv implicit"),
+    tipObiectiv(TipObiectiv::PIERDERE_GREUTATE),
+    valoare_dorita(0),
+    valoare_initiala(0.0),
+    valoare_curenta(0.0),
+    data_limita(),
+    obiectiv_atins(false){};
 
-Obiectiv::Obiectiv(const std::string &descriere,const std::string &tipObiectiv, double valoare_dorita,
+Obiectiv::Obiectiv(const std::string &descriere,TipObiectiv tipObiectiv, double valoare_dorita,
     double valoare_initiala, double, const std::string &data_limita, bool) {
     this->descriere = descriere;
     this->tipObiectiv = tipObiectiv;
@@ -34,7 +42,7 @@ std::string Obiectiv::getDescriere() const{
     return this->descriere;
 }
 
-std::string Obiectiv::getTipObiectiv() const{
+TipObiectiv Obiectiv::getTipObiectiv() const{
     return this->tipObiectiv;
 }
 
@@ -62,7 +70,7 @@ void Obiectiv::setDescriere(const std::string &descriere_noua) {
     this->descriere = descriere_noua;
 }
 
-void Obiectiv::setTipObiectiv(const std::string &tipObiectiv_nou) {
+void Obiectiv::setTipObiectiv(TipObiectiv tipObiectiv_nou) {
     this->tipObiectiv = tipObiectiv_nou;
 }
 
@@ -87,13 +95,24 @@ double Obiectiv::CalculeazaProgrez() const {
         return 0.0;     // Nu vreau impartire la 0
 
     double Progres;
-    if (tipObiectiv == "Pierdere greutate") {
-        // Daca slabim, procesul e invers fata de procesul de depunere de greutate
-        Progres = (valoare_initiala - valoare_curenta) / (valoare_initiala - valoare_dorita) * 100;
-    }
-    else {
-        // Pentru punere greutate
-        Progres = (valoare_curenta - valoare_initiala) / (valoare_dorita - valoare_initiala) * 100;
+    switch (tipObiectiv) {
+        case TipObiectiv::CASTIG_MASA_MUSCULARA:
+            // Progres pozitiv
+            Progres = (valoare_curenta - valoare_initiala) / (valoare_dorita - valoare_initiala) * 100.0;
+            break;
+
+        case TipObiectiv::PIERDERE_GREUTATE:
+            // Progres pozitiv
+            Progres = (valoare_initiala - valoare_curenta) / (valoare_initiala - valoare_dorita) * 100.0;
+            break;
+
+        case TipObiectiv::ANDURANTA:
+            // Progres linear
+            Progres = (valoare_curenta - valoare_initiala) / (valoare_dorita - valoare_initiala) * 100.0;
+            break;
+
+        default:
+            throw ;
     }
 
     // Progresul este un procent intre 0 si 100
@@ -102,23 +121,21 @@ double Obiectiv::CalculeazaProgrez() const {
 }
 
 void Obiectiv::VerificAtingereObiectiv(){
-    if (tipObiectiv == "Pierdere greutate") {
-        if (valoare_curenta <= valoare_dorita)
-            this->obiectiv_atins = true;
-        else
-            this->obiectiv_atins = false;
-    }
-    else {
-        if (valoare_curenta >= valoare_dorita)
-            this->obiectiv_atins = true;
-        else
-            this->obiectiv_atins = false;
+    switch (tipObiectiv) {
+        case TipObiectiv::PIERDERE_GREUTATE:
+            obiectiv_atins = (valoare_curenta <= valoare_initiala);
+            break;
+
+        case TipObiectiv::CASTIG_MASA_MUSCULARA:
+        case TipObiectiv::ANDURANTA:
+            obiectiv_atins = (valoare_curenta >= valoare_initiala);
+            break;
     }
 }
 
 std::ostream& operator<<(std::ostream& os, const Obiectiv& obiectiv) {
     os << "Descriere obiectiv: " << obiectiv.descriere << std::endl;
-    os << "Tipul de obiectiv: " << obiectiv.tipObiectiv << std::endl;
+    os << "Tipul de obiectiv: " << tipObiectivToString(obiectiv.tipObiectiv) << std::endl;
     os << "Valoare dorita: " << obiectiv.valoare_dorita << std::endl;
     os << "Valoare initiala: " << obiectiv.valoare_initiala << std::endl;
     os << "Valoare curenta: " << obiectiv.valoare_curenta << std::endl;

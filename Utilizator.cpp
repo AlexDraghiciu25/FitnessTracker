@@ -69,8 +69,8 @@ void Utilizator::setObiectivCurent(const Obiectiv& obiectiv) {
 }
 
 void Utilizator::actualizeazaObiectivGreutate(double greutate) {
-    if (obiectivCurent.getTipObiectiv() == "Pierdere greutate" ||
-        obiectivCurent.getTipObiectiv() == "Castig masa musculara") {
+    if (obiectivCurent.getTipObiectiv() == TipObiectiv::PIERDERE_GREUTATE ||
+        obiectivCurent.getTipObiectiv() == TipObiectiv::CASTIG_MASA_MUSCULARA) {
         obiectivCurent.setValoare_curenta(greutate);
     }
 }
@@ -98,7 +98,7 @@ void Utilizator::adaug_antrenament_completat(const Antrenament& antr) {
     std::cout << "Felicitari! utilizatorul cu numele: " << getNume() << " a ars " << calorii_arse << " kcal.!\n";
 
     // NOU: Actualizeaza Obiectivul de Anduranta
-    if (obiectivCurent.getTipObiectiv() == "Anduranta") {
+    if (obiectivCurent.getTipObiectiv() == TipObiectiv::ANDURANTA) {
         // Presupunem ca Obiectivul "Anduranta" urmareste numarul de antrenamente.
         // Incrementezi valoarea curenta cu 1.
         obiectivCurent.setValoare_curenta(obiectivCurent.getValoare_curenta() + 1);

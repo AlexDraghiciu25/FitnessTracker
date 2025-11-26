@@ -66,7 +66,7 @@ int main() {
 
     // Test Constructor de Copiere si Operator= Antrenament (pentru Tema 1)
     Antrenament ant_copiat = ant_dimineata; // Constructor de copiere
-    Antrenament ant_atrib("Antrenament Gol", "N/A");
+    Antrenament ant_atrib("Antrenament Gol", "N/A");    // available sau nu
     ant_atrib = ant_dimineata; // Operator de atribuire
 
     // Test Operator<< Antrenament (Compunere apeluri)
@@ -82,7 +82,7 @@ int main() {
 
     // Creare Obiectiv (Pierdere in Greutate)
     // Target: 70kg, Initial: 85kg
-    Obiectiv obj_slabire("Slabire 15 kg", "Pierdere greutate", 70.0, 85.0, 85.0, "31.12.2025", false);
+    Obiectiv obj_slabire("Slabire 15 kg",TipObiectiv::PIERDERE_GREUTATE, 70.0, 85.0, 85.0, "31.12.2025", false);
 
     // Test Operator<< Obiectiv
     std::cout << "\n> Obiectiv Initial:\n" << obj_slabire;
@@ -102,7 +102,7 @@ int main() {
     obj_slabire.setValoare_curenta(85.0); // Reset
 
     // Test Operator> Obiectiv (Compara progresul)
-    Obiectiv obj_anduranta("10 Antrenamente", "Anduranta", 10.0, 0.0, 3.0, "31.01.2026", false);
+    Obiectiv obj_anduranta("10 Antrenamente", TipObiectiv::ANDURANTA, 10.0, 0.0, 3.0, "31.01.2026", false);
     if (obj_anduranta > obj_slabire) {
         std::cout << "> Test Operator> (Progres): Obiectivul de Anduranta este mai avansat.\n";
     }
@@ -149,13 +149,13 @@ int main() {
 
 
     // ======================================================
-    // 4. TESTARE FUNCȚII NEFOLOSITE (PENTRU A OPRI WARNING-URILE)
+    // 4. TESTARE FUNCTII NEFOLOSITE (PENTRU A OPRI WARNING-URILE)
     // ======================================================
     std::cout << "\n--- 4. TESTARE FUNCTII 'UNUSED' ---\n";
 
     // --- Testare Setteri Exercitiu ---
     std::cout << "\n> Testare setteri Exercitiu (pe ex_forta)...\n";
-    ex_forta.set_nume("Flotari inclinate");          // FOLOSIT: set_nume
+    ex_forta.set_nume("flotari");          // FOLOSIT: set_nume
     ex_forta.set_categorie("Forta Piept");          // FOLOSIT: set_categorie
     ex_forta.set_calorii_arse_pe_min(8.0);          // FOLOSIT: set_calorii_arse_pe_min
     ex_forta.set_durata(12);                        // FOLOSIT: set_durata
@@ -182,7 +182,7 @@ int main() {
     // --- Testare Setteri Obiectiv ---
     std::cout << "\n> Testare setteri/getteri Obiectiv (pe obj_slabire)...\n";
     obj_slabire.setDescriere("Slabire Agresiva");   // FOLOSIT: setDescriere
-    obj_slabire.setTipObiectiv("Nutritie");       // FOLOSIT: setTipObiectiv
+    obj_slabire.setTipObiectiv(TipObiectiv::CASTIG_MASA_MUSCULARA);       // FOLOSIT: setTipObiectiv
     obj_slabire.setValoare_dorita(68.0);            // FOLOSIT: setValoare_dorita
     obj_slabire.setValoare_initiala(86.0);          // FOLOSIT: setValoare_initiala
     obj_slabire.setDataLimita("01.01.2026");      // FOLOSIT: setDataLimita

@@ -34,8 +34,6 @@ class Antrenament {
 
         [[nodiscard]] double calculeazaCaloriiTotaleAntrenament() const;
 
-        void AfisareAntrenamentComplet() const;
-
         // Apelez destructorul pentru a elibera memoria dinamica
         ~Antrenament();     // vect se curata autom
 

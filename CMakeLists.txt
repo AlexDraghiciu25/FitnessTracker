@@ -62,6 +62,19 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Antrenament.cpp
         Utilizator.cpp
         Obiectiv.cpp
+        PlanAntrenament.h
+        PlanAntrenament.cpp
+        EroriPlan.h
+        ExceptiiPlanuri.h
+        PlanSlabire.h
+        PlanSlabire.cpp
+        PlanHipertrofie.h
+        PlanHipertrofie.cpp
+        PlanAnduranta.h
+        PlanAnduranta.cpp
+        PlanReabilitare.h
+        PlanReabilitare.cpp
+        GestiunePlanuri.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
