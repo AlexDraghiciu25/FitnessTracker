@@ -1,206 +1,232 @@
 #include <iostream>
 #include <string>
+//#include <vector>
+#include <memory> // Necesara pentru smart pointers
+
+// --- HEADERS TEMA 1 ---
 #include "Exercitiu.h"
 #include "Antrenament.h"
 #include "Utilizator.h"
 #include "Obiectiv.h"
 
-// #include <vector>
+// --- HEADERS TEMA 2 (Noi) ---
+#include "PlanAntrenament.h"
+#include "PlanSlabire.h"
+#include "PlanHipertrofie.h"
+#include "PlanAnduranta.h"
+#include "PlanReabilitare.h"
+#include "GestiunePlanuri.h"
+#include "ExceptiiPlanuri.h"
 
 /*
     CARDIO: alergare, ciclism, inot, burpees;
-    alergat-cardio de intensitate medie bazata pe miscarea sustinuta a picioarelor pe o distanta data
-    ciclism-Ciclism – activitate cardio efectuata pe bicicleta, care dezvolta rezistenta si musculatura picioarelor.
-    inot-exercitiu complet al corporului, care implica miscari coordonate ale bratelor si picioarelor in apa.
-    burpees-exercitiu functional intens, care combina flotari, genuflexiuni si sarituri pentru forta si anduranta.
-
     FORTA: flotari, abdomene, impins la piept, biceps curl;
-    flotari – exercitiu pentru partea superioara a corpului, care lucreaza pieptul, bratele si umerii prin ridicari si coborari ale corpului.
-    abdomene-exercitiu focalizat pe intarirea muschilor abdominali, realizat prin ridicarea trunchiului din pozitie culcat.
-    impins la piept-exercitiu de forta efectuat la banca sau cu gantere, care dezvolta muschii pectorali si tricepsii.
-    biceps curl-exercitiu de izolare pentru biceps, realizat prin flexarea antebratului cu greutati.
-
     FLEXIBILITATE: stretching, yoga, pilates, mobilitate articulara
-    stretching-serie de miscari lente menite sa intinda musculatura si sa imbunatateasca mobilitatea articulatiilor.
-    yoga-antrenament care combina posturi statice si respiratie controlata pentru echilibru, flexibilitate si concentrare.
-    pilates-exercitii care intaresc musculatura profunda si sporesc flexibilitatea prin miscari lente si controlate.
-    mobilitATE articulara-exercitii usoare de rotatie si intindere pentru cresterea amplitudinii miscarilor articulare.
-
-    INCEPATOR:alergare, abdomene, stretching, mobilitate articulara;
-    INTERMEDIAR:ciclism, yoga, flotari, burpees;
-    AVANSAT:inot, impins la piept, biceps curl, pilates;
 */
 
-// Scenariu de utilizare pentru Tema 1
 int main() {
     std::cout << "======================================================\n";
-    std::cout << "         FITNESS TRACKER - TEST TEMA 1 COMPLETA\n";
+    std::cout << "         FITNESS TRACKER - TEMA 1 + TEMA 2\n";
     std::cout << "======================================================\n\n";
 
     // ======================================================
-    // 1. TESTARE CLASE DE BAZA: EXERCITIU si ANTRENAMENT
+    //               PARTEA 1: LOGICA DIN TEMA 1
     // ======================================================
+    std::cout << "######################################################\n";
+    std::cout << "###              DERULARE TESTE TEMA 1             ###\n";
+    std::cout << "######################################################\n";
+
+    // 1. TESTARE CLASE DE BAZA: EXERCITIU si ANTRENAMENT
     std::cout << "--- 1. TESTARE EXERCITIU SI ANTRENAMENT ---\n";
 
-    // Creare Exerciții
-    Exercitiu ex_cardio("Alergare", "Cardio", 10.0, 30, "Mediu"); // 300 kcal
-    Exercitiu ex_forta("Flotari", "Forta", 7.0, 10, "Incepator");  // 70 kcal
+    Exercitiu ex_cardio("Alergare", "Cardio", 10.0, 30, "Mediu");
+    Exercitiu ex_forta("Flotari", "Forta", 7.0, 10, "Incepator");
 
-    // Test Operator<< Exercitiu
     std::cout << "\n> EX1 Creat:\n" << ex_cardio;
     std::cout << "  Calorii totale arse: " << ex_cardio.calculeazaCaloriiTotale() << " kcal\n\n";
 
-    // Test Operator> Exercitiu (netrivial)
     if (ex_cardio > ex_forta) {
         std::cout << "> Test Operator> (Progres): Alergarea arde mai multe calorii.\n";
     }
 
-    // Creare Antrenament
     Antrenament ant_dimineata("Morning Quick", "Incepator");
     ant_dimineata.adaugExercitiu(ex_cardio);
     ant_dimineata.adaugExercitiu(ex_forta);
 
-    // Test Operator+ Antrenament
     Exercitiu ex_flex("Stretching", "Flexibilitate", 3.0, 15, "Usor");
-    ant_dimineata = ant_dimineata + ex_flex; // Test operator= si operator+
+    ant_dimineata = ant_dimineata + ex_flex;
 
-    // Test Constructor de Copiere si Operator= Antrenament (pentru Tema 1)
-    Antrenament ant_copiat = ant_dimineata; // Constructor de copiere
-    Antrenament ant_atrib("Antrenament Gol", "N/A");    // available sau nu
-    ant_atrib = ant_dimineata; // Operator de atribuire
+    Antrenament ant_copiat = ant_dimineata;
+    Antrenament ant_atrib("Antrenament Gol", "N/A");
+    ant_atrib = ant_dimineata;
 
-    // Test Operator<< Antrenament (Compunere apeluri)
     std::cout << "\n> Antrenament complet (Total calorii: "
               << ant_atrib.calculeazaCaloriiTotaleAntrenament() << " kcal):\n";
     std::cout << ant_atrib << "\n";
 
-
-    // ======================================================
     // 2. TESTARE CLASA OBIECTIV
-    // ======================================================
     std::cout << "\n--- 2. TESTARE CLASA OBIECTIV ---\n";
 
-    // Creare Obiectiv (Pierdere in Greutate)
-    // Target: 70kg, Initial: 85kg
     Obiectiv obj_slabire("Slabire 15 kg",TipObiectiv::PIERDERE_GREUTATE, 70.0, 85.0, 85.0, "31.12.2025", false);
-
-    // Test Operator<< Obiectiv
     std::cout << "\n> Obiectiv Initial:\n" << obj_slabire;
     std::cout << "  Progres initial: " << obj_slabire.CalculeazaProgrez() << "%\n";
 
-    // Simulare Progres
-    obj_slabire.setValoare_curenta(78.0); // Scade de la 85kg la 78kg
+    obj_slabire.setValoare_curenta(78.0);
 
-    // Test Functie Netriviala: CalculeazaProgrez()
     std::cout << "\n> Dupa scaderea la 78 kg:\n";
     std::cout << "  Progres nou: " << obj_slabire.CalculeazaProgrez() << "%\n";
 
-    // Test Functie Netriviala: VerificAtingereObiectiv()
-    obj_slabire.setValoare_curenta(69.0); // Atins
+    obj_slabire.setValoare_curenta(69.0);
     obj_slabire.VerificAtingereObiectiv();
     std::cout << "  Status dupa atingere: " << (obj_slabire.getObiectiv_atins() ? "ATINS" : "NEATINS") << "\n";
-    obj_slabire.setValoare_curenta(85.0); // Reset
+    obj_slabire.setValoare_curenta(85.0);
 
-    // Test Operator> Obiectiv (Compara progresul)
     Obiectiv obj_anduranta("10 Antrenamente", TipObiectiv::ANDURANTA, 10.0, 0.0, 3.0, "31.01.2026", false);
     if (obj_anduranta > obj_slabire) {
         std::cout << "> Test Operator> (Progres): Obiectivul de Anduranta este mai avansat.\n";
     }
 
-
-    // ======================================================
-    // 3. TESTARE CLASA UTILIZATOR (COMPUNERE)
-    // ======================================================
+    // 3. TESTARE CLASA UTILIZATOR
     std::cout << "\n--- 3. TESTARE CLASA UTILIZATOR (COMPUNERE) ---\n";
 
-    // Creare Utilizator (compune obj_slabire)
     Utilizator user_andrei("Andrei", 30, 85.0, 180.0, obj_slabire);
-
-    // Test Operator<< Utilizator (Compunere de apeluri)
     std::cout << "\n> Profilul lui Andrei (initial):\n";
     std::cout << user_andrei << "\n";
 
-    // Simulare Saptamana 1: Antrenamente și Scădere în Greutate
     std::cout << "--- Progres Saptamana 1 ---\n";
+    user_andrei.adaug_antrenament_completat(ant_dimineata);
+    user_andrei.adaug_antrenament_completat(ant_dimineata);
 
-    // Test Netrivial: adaug_antrenament_completat
-    user_andrei.adaug_antrenament_completat(ant_dimineata); // Antrenament 1
-    user_andrei.adaug_antrenament_completat(ant_dimineata); // Antrenament 2
-
-    // Test Netrivial: actualizeazaObiectivGreutate apelata de setGreutateKg
-    user_andrei.setGreutateKg(83.0); // Scade de la 85kg la 83kg (actualizeaza obiectivul)
+    user_andrei.setGreutateKg(83.0);
     std::cout << "Noua greutate: 83.0 kg.\n\n";
 
-    // Afisare Profil Final
     std::cout << "> Profilul lui Andrei (Dupa Saptamana 1):\n";
     user_andrei.afisareProfilUtilizator();
 
-    // Test Obiectiv Anduranta (schimbare de obiectiv)
     std::cout << "\n--- Schimbare Obiectiv pe Anduranta ---\n";
     user_andrei.setObiectivCurent(obj_anduranta);
     std::cout << "> Obiectiv nou setat: " << user_andrei.getObiectivCurent().getDescriere() << "\n";
 
-    // Test Progres Obiectiv Anduranta (Logica din adaug_antrenament_completat)
-    user_andrei.adaug_antrenament_completat(ant_dimineata); // Antrenament 3 (Obiectiv: 3/10)
-    user_andrei.adaug_antrenament_completat(ant_dimineata); // Antrenament 4 (Obiectiv: 4/10)
+    user_andrei.adaug_antrenament_completat(ant_dimineata);
+    user_andrei.adaug_antrenament_completat(ant_dimineata);
 
     std::cout << "\n> Progres Anduranta (4/10): "
               << user_andrei.getObiectivCurent().CalculeazaProgrez() << "%\n";
 
-
-    // ======================================================
-    // 4. TESTARE FUNCTII NEFOLOSITE (PENTRU A OPRI WARNING-URILE)
-    // ======================================================
+    // 4. TESTARE FUNCTII NEFOLOSITE (SUPPRESS WARNINGS)
     std::cout << "\n--- 4. TESTARE FUNCTII 'UNUSED' ---\n";
+    ex_forta.set_nume("flotari");
+    ex_forta.set_categorie("Forta Piept");
+    ex_forta.set_calorii_arse_pe_min(8.0);
+    ex_forta.set_durata(12);
+    ex_forta.set_dificultate("Mediu");
+    std::cout << "Nume nou: " << ex_forta.get_nume() << "\n";
+    ex_forta.afisare_detaliata();
+    std::cout << "Numar exercitii: " << ant_atrib.get_nrExercitii() << "\n";
+    obj_slabire.setDescriere("Slabire Agresiva");
+    obj_slabire.setTipObiectiv(TipObiectiv::CASTIG_MASA_MUSCULARA);
+    obj_slabire.setValoare_dorita(68.0);
+    obj_slabire.setValoare_initiala(86.0);
+    obj_slabire.setDataLimita("01.01.2026");
+    std::cout << "Valoare dorita: " << obj_slabire.getValoare_dorita() << "\n";
+    user_andrei.setInaltime_cm(181.0);
+    std::cout << "Noul BMI: " << user_andrei.calculezBMI() << "\n";
 
-    // --- Testare Setteri Exercitiu ---
-    std::cout << "\n> Testare setteri Exercitiu (pe ex_forta)...\n";
-    ex_forta.set_nume("flotari");          // FOLOSIT: set_nume
-    ex_forta.set_categorie("Forta Piept");          // FOLOSIT: set_categorie
-    ex_forta.set_calorii_arse_pe_min(8.0);          // FOLOSIT: set_calorii_arse_pe_min
-    ex_forta.set_durata(12);                        // FOLOSIT: set_durata
-    ex_forta.set_dificultate("Mediu");              // FOLOSIT: set_dificultate
 
-    // --- Testare Getteri Exercitiu ---
-    std::cout << "Nume nou: " << ex_forta.get_nume() << "\n"; // FOLOSIT: get_nume
-    std::cout << "Categorie noua: " << ex_forta.get_categorie() << "\n"; // FOLOSIT: get_categorie
-    std::cout << "Cal/min: " << ex_forta.get_calorii_arse_pe_min() << "\n"; // FOLOSIT: get_calorii_arse_pe_min
-    std::cout << "Dificultate noua: " << ex_forta.get_dificultate() << "\n"; // FOLOSIT: get_dificultate
+    // ======================================================
+    //               PARTEA 2: LOGICA DIN TEMA 2
+    // ======================================================
+    std::cout << "\n\n";
+    std::cout << "######################################################\n";
+    std::cout << "###              TEST TEMA 2                       ###\n";
+    std::cout << "###  Polimorfism, Exceptii, STL, Smart Pointers    ###\n";
+    std::cout << "######################################################\n";
 
-    // --- Testare Afisare detaliata Exercitiu ---
-    ex_forta.afisare_detaliata();                   // FOLOSIT: afisare_detaliata
+    try {
+        // --- 5. TESTARE EXCEPTII ---
+        std::cout << "\n--- 5. TESTARE EXCEPTII Validation Logic ---\n";
 
-    // --- Testare functii Antrenament ---
-    std::cout << "\n> Testare functii Antrenament (pe ant_atrib)...\n";
-    std::cout << "Numar exercitii: " << ant_atrib.get_nrExercitii() << "\n"; // FOLOSIT: get_nrExercitii
-    std::cout << "Durata totala: " << ant_atrib.calculeazaDurataAntrenament() << " min\n"; // FOLOSIT: calculeazaDurataAntrenament
+        try {
+            std::cout << "Incerc sa creez un plan de slabire invalid, deficit prea mic...\n";
+            // Deficitul minim e 200, noi punem 50 -> Va arunca ExceptieConfigurare
+            PlanSlabire planGresit("Fail Plan", 3, "Incepator", 3, 1500, 50, 20);
+        } catch (const ExceptieConfigurare& e) {
+            std::cout << ">>> EXCEPTIE PRINSA: " << e.what() << "\n";
+        } catch (const ExceptieValidarePlan& e) {
+            std::cout << ">>> EXCEPTIE VALIDARE: " << e.what() << "\n";
+        }
 
-    // N.B: AfisareAntrenamentComplet este probabil redundantă cu operator<<
-    // Dar o apelăm pentru a bifa warning-ul
-    // ant_atrib.AfisareAntrenamentComplet();       // FOLOSIT: AfisareAntrenamentComplet
+        try {
+             std::cout << "Incerc sa creez un plan cu durata invalida (15 luni)...\n";
+             // Durata max e 12 -> Va arunca ExceptieValidarePlan
+             PlanHipertrofie planLung("Too Long", 15, "Avansat", 5, "PPL", 12, 10, 300);
+        } catch (const ExceptiePlan& e) {
+             std::cout << ">>> EXCEPTIE PRINSA: " << e.what() << "\n";
+        }
 
-    // --- Testare Setteri Obiectiv ---
-    std::cout << "\n> Testare setteri/getteri Obiectiv (pe obj_slabire)...\n";
-    obj_slabire.setDescriere("Slabire Agresiva");   // FOLOSIT: setDescriere
-    obj_slabire.setTipObiectiv(TipObiectiv::CASTIG_MASA_MUSCULARA);       // FOLOSIT: setTipObiectiv
-    obj_slabire.setValoare_dorita(68.0);            // FOLOSIT: setValoare_dorita
-    obj_slabire.setValoare_initiala(86.0);          // FOLOSIT: setValoare_initiala
-    obj_slabire.setDataLimita("01.01.2026");      // FOLOSIT: setDataLimita
 
-    // --- Testare Getteri Obiectiv ---
-    std::cout << "Valoare dorita: " << obj_slabire.getValoare_dorita() << "\n"; // FOLOSIT: getValoare_dorita
-    std::cout << "Valoare initiala: " << obj_slabire.getValoare_initiala() << "\n"; // FOLOSIT: getValoare_initiala
-    std::cout << "Data limita: " << obj_slabire.getDataLimita() << "\n"; // FOLOSIT: getDataLimita
+        // --- 6. GESTIUNE PLANURI SI POLIMORFISM ---
+        std::cout << "\n--- 6. GESTIUNE PLANURI SI SMART POINTERS ---\n";
 
-    // --- Testare functii Utilizator ---
-    std::cout << "\n> Testare functii Utilizator (pe user_andrei)...\n";
-    user_andrei.setInaltime_cm(181.0);              // FOLOSIT: setInaltime_cm
-    std::cout << "Varsta: " << user_andrei.getVarsta() << "\n"; // FOLOSIT: getVarsta
-    std::cout << "Noul BMI: " << user_andrei.calculezBMI() << "\n"; // FOLOSIT: calculezBMI
+        GestiunePlanuri manager("Alexandru Fitness Manager");
 
+        // Adaugare Plan SLABIRE (Pointer la Derivata -> Pointer la Baza)
+        manager.adaugaPlan(std::make_shared<PlanSlabire>(
+            "Summer Shredding", 3, "Intermediar", 4, 1900, 500, 30));
+
+        // Adaugare Plan HIPERTROFIE
+        manager.adaugaPlan(std::make_shared<PlanHipertrofie>(
+            "Winter Bulk", 6, "Avansat", 5, "Push/Pull/Legs", 20, 10, 300));
+
+        // Adaugare Plan ANDURANTA
+        manager.adaugaPlan(std::make_shared<PlanAnduranta>(
+            "Pregatire Maraton", 4, "Avansat", 6, 42.0, "Alergare", 50));
+
+        // Adaugare Plan REABILITARE (A 4-a derivata ceruta de tema)
+        manager.adaugaPlan(std::make_shared<PlanReabilitare>(
+            "Recuperare Menisc", 2, "Incepator", 3, "Ruptura Menisc", true, 6));
+
+        std::cout << "Am adaugat 4 planuri in sistem. Numar total (static): "
+                  << PlanAntrenament::getNumarPlanuri() << "\n";
+
+
+        // --- 7. AFISARE POLIMORFICA (VIRTUAL FUNCTIONS) ---
+        std::cout << "\n--- 7. AFISARE TOATE PLANURILE Apel Functii Virtuale ---\n";
+        // Apeleaza afiseazaPlan() care apeleaza virtuala genereazaRecomandari()
+        manager.afiseazaToatePlanurile();
+
+
+        // --- 8. TESTARE DYNAMIC_CAST ---
+        std::cout << "\n--- 8. TESTARE DYNAMIC_CAST Filtrare Planuri Slabire ---\n";
+        // Aceasta functie itereaza prin lista si foloseste dynamic_cast pentru a gasi doar planurile de slabire
+        // si a afisa deficitul caloric (metoda care nu exista in baza)
+        manager.afiseazaPlanuriSlabire();
+
+
+        // --- 9. TESTARE COPY CONSTRUCTOR (DEEP COPY) ---
+        std::cout << "\n--- 9. TESTARE DEEP COPY GestiunePlanuri ---\n";
+        {
+            const GestiunePlanuri& managerCopie = manager; // Copy Constructor
+            std::cout << "S-a creat o copie a managerului.\n";
+            std::cout << "Planuri in original: " << manager.getNumarPlanuri() << "\n";
+            std::cout << "Planuri in copie: " << managerCopie.getNumarPlanuri() << "\n";
+
+            // Daca ai implementat clone() corect in GestiunePlanuri, adresele pointerilor ar trebui sa fie diferite,
+            // dar continutul identic.
+        } // Aici se distruge copia (destructor), originalul trebuie sa ramana intact
+
+
+        // --- 10. INTENSITATE MEDIE ---
+        std::cout << "\n--- 10.Intensitate Medie ---\n";
+        std::cout << "Intensitatea medie a tuturor planurilor din manager: "
+                  << manager.calculeazaIntensitateaMedie() << "%\n";
+
+    } catch (const std::exception& e) {
+        std::cout << "\nEroare neprinsa in main: " << e.what() << "\n";
+    }
 
     std::cout << "\n======================================================\n";
-    std::cout << "          TEST COMPLET TEMA 1 FINALIZAT\n";
+    std::cout << "          TEST COMPLET TEMA 2                           \n";
     std::cout << "======================================================\n";
 
     return 0;

@@ -28,7 +28,7 @@ public:
         swap(prim.planActiv, secund.planActiv);
     }
 
-    void adaugaPlan(std::shared_ptr<PlanAntrenament> plan);
+    void adaugaPlan(const std::shared_ptr<PlanAntrenament>& plan);
     void activeazaPlan(int index);
     void afiseazaToatePlanurile() const;
 
