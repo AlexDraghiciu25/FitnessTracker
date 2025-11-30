@@ -64,7 +64,6 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Obiectiv.cpp
         PlanAntrenament.h
         PlanAntrenament.cpp
-        EroriPlan.h
         ExceptiiPlanuri.h
         PlanSlabire.h
         PlanSlabire.cpp
