@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include  <string>
+#include <stdexcept>
 
 enum class TipObiectiv {
     PIERDERE_GREUTATE,
@@ -49,7 +50,7 @@ inline TipObiectiv stringToTipObiectiv(const std::string &str) {
     else if (str == "Anduranta" || str == "anduranta" || str == "rezistenta")
         return TipObiectiv::ANDURANTA;
     else
-        throw;
+        throw std::invalid_argument("Tip obiectiv necunoscut: " + str);
 }
 
 class Obiectiv {

@@ -1,7 +1,8 @@
 #include <iostream>
 #include <string>
 //#include <vector>
-#include <memory> // Necesara pentru smart pointers
+#include <memory>
+//#include <stdexcept> // Necesara pentru std::invalid_argument si alte exceptii
 
 // --- HEADERS TEMA 1 ---
 #include "Exercitiu.h"
@@ -36,7 +37,7 @@ int main() {
     std::cout << "###              DERULARE TESTE TEMA 1             ###\n";
     std::cout << "######################################################\n";
 
-    // 1. TESTARE CLASE DE BAZA: EXERCITIU si ANTRENAMENT
+    // 1. TESTARE CLASE DE BAZA
     std::cout << "--- 1. TESTARE EXERCITIU SI ANTRENAMENT ---\n";
 
     Exercitiu ex_cardio("Alergare", "Cardio", 10.0, 30, "Mediu");
@@ -72,7 +73,6 @@ int main() {
     std::cout << "  Progres initial: " << obj_slabire.CalculeazaProgrez() << "%\n";
 
     obj_slabire.setValoare_curenta(78.0);
-
     std::cout << "\n> Dupa scaderea la 78 kg:\n";
     std::cout << "  Progres nou: " << obj_slabire.CalculeazaProgrez() << "%\n";
 
@@ -87,7 +87,7 @@ int main() {
     }
 
     // 3. TESTARE CLASA UTILIZATOR
-    std::cout << "\n--- 3. TESTARE CLASA UTILIZATOR (COMPUNERE) ---\n";
+    std::cout << "\n--- 3. TESTARE CLASA UTILIZATOR ---\n";
 
     Utilizator user_andrei("Andrei", 30, 85.0, 180.0, obj_slabire);
     std::cout << "\n> Profilul lui Andrei (initial):\n";
@@ -113,7 +113,7 @@ int main() {
     std::cout << "\n> Progres Anduranta (4/10): "
               << user_andrei.getObiectivCurent().CalculeazaProgrez() << "%\n";
 
-    // 4. TESTARE FUNCTII NEFOLOSITE (SUPPRESS WARNINGS)
+    // 4. SUPPRESS WARNINGS TEMA 1
     std::cout << "\n--- 4. TESTARE FUNCTII 'UNUSED' ---\n";
     ex_forta.set_nume("flotari");
     ex_forta.set_categorie("Forta Piept");
@@ -123,12 +123,16 @@ int main() {
     std::cout << "Nume nou: " << ex_forta.get_nume() << "\n";
     ex_forta.afisare_detaliata();
     std::cout << "Numar exercitii: " << ant_atrib.get_nrExercitii() << "\n";
+
+    // Setteri obiectiv ramasi
     obj_slabire.setDescriere("Slabire Agresiva");
     obj_slabire.setTipObiectiv(TipObiectiv::CASTIG_MASA_MUSCULARA);
     obj_slabire.setValoare_dorita(68.0);
     obj_slabire.setValoare_initiala(86.0);
     obj_slabire.setDataLimita("01.01.2026");
     std::cout << "Valoare dorita: " << obj_slabire.getValoare_dorita() << "\n";
+
+    // Setteri utilizator ramasi
     user_andrei.setInaltime_cm(181.0);
     std::cout << "Noul BMI: " << user_andrei.calculezBMI() << "\n";
 
@@ -225,10 +229,6 @@ int main() {
         std::cout << "\nEroare neprinsa in main: " << e.what() << "\n";
     }
 
-    std::cout << "\n======================================================\n";
-    std::cout << "          TEST COMPLET TEMA 2                           \n";
-    std::cout << "======================================================\n";
-
     // ======================================================
     //      PARTEA 3: CODE COVERAGE (SOLUTIE PENTRU WARNINGS)
     // ======================================================
@@ -252,24 +252,29 @@ int main() {
 
     // Testare functie globala stringToTipObiectiv
     try {
-        TipObiectiv tip = stringToTipObiectiv("slabire");
-        std::cout << "  Conversie string->enum reusita: " << tipObiectivToString(tip) << "\n";
-    } catch (...) {
-        std::cout << "  Conversie esuata.\n";
+        TipObiectiv tip = stringToTipObiectiv("Text Invalid care arunca eroare");
+        // Daca nu se arunca eroare, afisam rezultatul (dar aici ne asteptam la eroare)
+        std::cout << "  Tip returnat: " << tipObiectivToString(tip) << "\n";
+    } catch (const std::exception& e) {
+        std::cout << "  [TEST VALID] stringToTipObiectiv a aruncat exceptia corecta: " << e.what() << "\n";
     }
 
-    GestiunePlanuri manager("Alexandru Fitness Manager");
     // 3. Unused in GestiunePlanuri
-    std::cout << "\n> [GestiunePlanuri] Statistici si Activare:\n";
-    manager.activeazaPlan(1); // Testare activeazaPlan
-    auto planActiv = manager.getPlanActiv(); // Testare getPlanActiv
+    // CORECTIE: Cream un manager nou si ii adaugam planuri INAINTE sa accesam indecsi!
+    GestiunePlanuri managerCoverage("Manager Coverage");
+    managerCoverage.adaugaPlan(std::make_shared<PlanSlabire>("Slabire A", 1, "Incepator", 3, 1500, 300, 20)); // index 0
+    managerCoverage.adaugaPlan(std::make_shared<PlanHipertrofie>("Masa B", 1, "Incepator", 3, "Full", 10, 10, 200)); // index 1
 
+    std::cout << "\n> [GestiunePlanuri] Statistici si Activare:\n";
+    managerCoverage.activeazaPlan(1); // Acum este safe, deoarece avem 2 planuri (index 0 si 1)
+
+    auto planActiv = managerCoverage.getPlanActiv();
     if (planActiv) {
         std::cout << "  Plan activ curent: " << planActiv->getNumePlan() << "\n";
     }
 
-    std::cout << "  Contor Slabire: " << manager.getNumarPlanuriSlabire() << "\n";
-    std::cout << "  Contor Hipertrofie: " << manager.getNumarPlanuriHipertrofie() << "\n";
+    std::cout << "  Contor Slabire: " << managerCoverage.getNumarPlanuriSlabire() << "\n";
+    std::cout << "  Contor Hipertrofie: " << managerCoverage.getNumarPlanuriHipertrofie() << "\n";
 
     // 4. Unused in PlanAntrenament (Base) & Derivate Specifice
     std::cout << "\n> [PlanAntrenament] Metode specifice claselor derivate:\n";
@@ -280,16 +285,14 @@ int main() {
         std::cout << "  Saptamana curenta setata la: " << planActiv->getSaptamanaCurenta() << "\n";
         std::cout << "  Durata totala plan: " << planActiv->getDurataLuni() << " luni\n";
 
-        // Downcast pentru a testa metodele specifice derivatelor (getDistantaTinta, getTipSplit, etc.)
-        // Deoarece am activat planul de la index 1 (care e Hipertrofie in codul de mai sus)
+        // Downcast pentru a testa metodele specifice derivatelor
         if (auto planHyp = std::dynamic_pointer_cast<PlanHipertrofie>(planActiv)) {
             std::cout << "  [Hipertrofie Specific] Split: " << planHyp->getTipSplit() << "\n";
             std::cout << "  [Hipertrofie Specific] Seturi: " << planHyp->getSeturiPerGrupaMusculara() << "\n";
         }
     }
 
-    // Testam metodele specifice celorlalte clase creand obiecte temporare sau iterand
-    // Aici cream unele temporare doar pentru a apela getterii si a scapa de warning
+    // Obiecte temporare pentru restul getterilor (ca sa scapam de warning-uri)
     PlanAnduranta tempAndu("Test", 1, "Incepator", 1, 10.0, "Run", 30);
     std::cout << "  [Anduranta Specific] Distanta: " << tempAndu.getDistantaTinta() << " km\n";
 
