@@ -75,6 +75,7 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         PlanReabilitare.cpp
         GestiunePlanuri.h
         GestiunePlanuri.cpp
+        Enums.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

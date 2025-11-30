@@ -1,8 +1,7 @@
 #include <iostream>
 #include <string>
-//#include <vector>
+#include "Enums.h"
 #include <memory>
-//#include <stdexcept> // Necesara pentru std::invalid_argument si alte exceptii
 
 // --- HEADERS TEMA 1 ---
 #include "Exercitiu.h"
@@ -40,8 +39,8 @@ int main() {
     // 1. TESTARE CLASE DE BAZA
     std::cout << "--- 1. TESTARE EXERCITIU SI ANTRENAMENT ---\n";
 
-    Exercitiu ex_cardio("Alergare", "Cardio", 10.0, 30, "Mediu");
-    Exercitiu ex_forta("Flotari", "Forta", 7.0, 10, "Incepator");
+    Exercitiu ex_cardio("Alergare", CategorieExercitiu::CARDIO, 10.0, 30, Dificultate::MEDIU);
+    Exercitiu ex_forta("Flotari", CategorieExercitiu::FORTA, 7.0, 10, Dificultate::USOR);
 
     std::cout << "\n> EX1 Creat:\n" << ex_cardio;
     std::cout << "  Calorii totale arse: " << ex_cardio.calculeazaCaloriiTotale() << " kcal\n\n";
@@ -50,11 +49,11 @@ int main() {
         std::cout << "> Test Operator> (Progres): Alergarea arde mai multe calorii.\n";
     }
 
-    Antrenament ant_dimineata("Morning Quick", "Incepator");
+    Antrenament ant_dimineata("Morning Quick", toString(NivelExperienta::INCEPATOR));
     ant_dimineata.adaugExercitiu(ex_cardio);
     ant_dimineata.adaugExercitiu(ex_forta);
 
-    Exercitiu ex_flex("Stretching", "Flexibilitate", 3.0, 15, "Usor");
+    Exercitiu ex_flex("Stretching", CategorieExercitiu::FLEXIBILITATE, 3.0, 15, Dificultate::USOR);
     ant_dimineata = ant_dimineata + ex_flex;
 
     Antrenament ant_copiat = ant_dimineata;
@@ -116,10 +115,10 @@ int main() {
     // 4. SUPPRESS WARNINGS TEMA 1
     std::cout << "\n--- 4. TESTARE FUNCTII 'UNUSED' ---\n";
     ex_forta.set_nume("flotari");
-    ex_forta.set_categorie("Forta Piept");
+    ex_forta.set_categorie(CategorieExercitiu::FORTA);
     ex_forta.set_calorii_arse_pe_min(8.0);
     ex_forta.set_durata(12);
-    ex_forta.set_dificultate("Mediu");
+    ex_forta.set_dificultate(Dificultate::MEDIU);
     std::cout << "Nume nou: " << ex_forta.get_nume() << "\n";
     ex_forta.afisare_detaliata();
     std::cout << "Numar exercitii: " << ant_atrib.get_nrExercitii() << "\n";
@@ -153,7 +152,7 @@ int main() {
         try {
             std::cout << "Incerc sa creez un plan de slabire invalid, deficit prea mic...\n";
             // Deficitul minim e 200, noi punem 50 -> Va arunca ExceptieConfigurare
-            PlanSlabire planGresit("Fail Plan", 3, "Incepator", 3, 1500, 50, 20);
+            PlanSlabire planGresit("Fail Plan", 3, NivelExperienta::INCEPATOR, 3, 1500, 50, 20);
         } catch (const ExceptieConfigurare& e) {
             std::cout << ">>> EXCEPTIE PRINSA: " << e.what() << "\n";
         } catch (const ExceptieValidarePlan& e) {
@@ -163,7 +162,7 @@ int main() {
         try {
              std::cout << "Incerc sa creez un plan cu durata invalida (15 luni)...\n";
              // Durata max e 12 -> Va arunca ExceptieValidarePlan
-             PlanHipertrofie planLung("Too Long", 15, "Avansat", 5, "PPL", 12, 10, 300);
+             PlanHipertrofie planLung("Too Long", 15, NivelExperienta::AVANSAT, 5, "PPL", 12, 10, 300);
         } catch (const ExceptiePlan& e) {
              std::cout << ">>> EXCEPTIE PRINSA: " << e.what() << "\n";
         }
@@ -176,19 +175,19 @@ int main() {
 
         // Adaugare Plan SLABIRE (Pointer la Derivata -> Pointer la Baza)
         manager.adaugaPlan(std::make_shared<PlanSlabire>(
-            "Summer Shredding", 3, "Intermediar", 4, 1900, 500, 30));
+            "Summer Shredding", 3, NivelExperienta::INTERMEDIAR, 4, 1900, 500, 30));
 
         // Adaugare Plan HIPERTROFIE
         manager.adaugaPlan(std::make_shared<PlanHipertrofie>(
-            "Winter Bulk", 6, "Avansat", 5, "Push/Pull/Legs", 20, 10, 300));
+            "Winter Bulk", 6, NivelExperienta::AVANSAT, 5, "Push/Pull/Legs", 20, 10, 300));
 
         // Adaugare Plan ANDURANTA
         manager.adaugaPlan(std::make_shared<PlanAnduranta>(
-            "Pregatire Maraton", 4, "Avansat", 6, 42.0, "Alergare", 50));
+            "Pregatire Maraton", 4, NivelExperienta::AVANSAT, 6, 42.0, "Alergare", 50));
 
         // Adaugare Plan REABILITARE (A 4-a derivata ceruta de tema)
         manager.adaugaPlan(std::make_shared<PlanReabilitare>(
-            "Recuperare Menisc", 2, "Incepator", 3, "Ruptura Menisc", true, 6));
+            "Recuperare Menisc", 2, NivelExperienta::INCEPATOR, 3, "Ruptura Menisc", true, 6));
 
         std::cout << "Am adaugat 4 planuri in sistem. Numar total (static): "
                   << PlanAntrenament::getNumarPlanuri() << "\n";
@@ -240,9 +239,9 @@ int main() {
     // 1. Unused in Antrenament & Exercitiu
     std::cout << "\n> [Antrenament/Exercitiu] Getters:\n";
     std::cout << "  Durata antrenament: " << ant_dimineata.calculeazaDurataAntrenament() << " min\n";
-    std::cout << "  Detalii Exercitiu: " << ex_cardio.get_categorie()
+    std::cout << "  Detalii Exercitiu: " << toString(ex_cardio.get_categorie())
               << " | " << ex_cardio.get_calorii_arse_pe_min() << " cal/min"
-              << " | " << ex_cardio.get_dificultate() << "\n";
+              << " | " << toString(ex_cardio.get_dificultate()) << "\n";
 
     // 2. Unused in Utilizator & Obiectiv
     std::cout << "\n> [Utilizator/Obiectiv] Getters:\n";
@@ -262,8 +261,8 @@ int main() {
     // 3. Unused in GestiunePlanuri
     // CORECTIE: Cream un manager nou si ii adaugam planuri INAINTE sa accesam indecsi!
     GestiunePlanuri managerCoverage("Manager Coverage");
-    managerCoverage.adaugaPlan(std::make_shared<PlanSlabire>("Slabire A", 1, "Incepator", 3, 1500, 300, 20)); // index 0
-    managerCoverage.adaugaPlan(std::make_shared<PlanHipertrofie>("Masa B", 1, "Incepator", 3, "Full", 10, 10, 200)); // index 1
+    managerCoverage.adaugaPlan(std::make_shared<PlanSlabire>("Slabire A", 1, NivelExperienta::INCEPATOR, 3, 1500, 300, 20)); // index 0
+    managerCoverage.adaugaPlan(std::make_shared<PlanHipertrofie>("Masa B", 1, NivelExperienta::INCEPATOR, 3, "Full", 10, 10, 200)); // index 1
 
     std::cout << "\n> [GestiunePlanuri] Statistici si Activare:\n";
     managerCoverage.activeazaPlan(1); // Acum este safe, deoarece avem 2 planuri (index 0 si 1)
@@ -293,10 +292,10 @@ int main() {
     }
 
     // Obiecte temporare pentru restul getterilor (ca sa scapam de warning-uri)
-    PlanAnduranta tempAndu("Test", 1, "Incepator", 1, 10.0, "Run", 30);
+    PlanAnduranta tempAndu("Test", 1, NivelExperienta::INCEPATOR, 1, 10.0, "Run", 30);
     std::cout << "  [Anduranta Specific] Distanta: " << tempAndu.getDistantaTinta() << " km\n";
 
-    PlanReabilitare tempRehab("Test", 1, "Incepator", 1, "Spate", false, 3);
+    PlanReabilitare tempRehab("Test", 1, NivelExperienta::INCEPATOR, 1, "Spate", false, 3);
     std::cout << "  [Reabilitare Specific] Leziune: " << tempRehab.getTipLeziune()
               << " | Durere: " << tempRehab.getNivelDurere() << "\n";
 

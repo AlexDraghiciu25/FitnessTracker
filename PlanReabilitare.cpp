@@ -2,7 +2,7 @@
 #include "ExceptiiPlanuri.h"
 
 PlanReabilitare::PlanReabilitare(const std::string &numePlan, int durataLuni,
-                                const std::string &nivelExperienta, int zilePeSaptamana,
+                                NivelExperienta nivelExperienta, int zilePeSaptamana,
                                 const std::string &tipLeziune, bool necesitaSupervizare, int nivelDurere)
     : PlanAntrenament(numePlan, durataLuni, nivelExperienta, zilePeSaptamana),
     tipLeziune(tipLeziune),

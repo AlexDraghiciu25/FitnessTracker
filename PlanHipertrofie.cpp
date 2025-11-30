@@ -4,7 +4,7 @@
 #include "ExceptiiPlanuri.h"
 
 PlanHipertrofie::PlanHipertrofie(const std::string &numePlan, int durataLuni,
-                                const std::string &nivelExperienta, int zilePeSaptamana,
+                                NivelExperienta nivelExperienta, int zilePeSaptamana,
                                 std::string  tipSplit, int seturiPerGrupaMusculara, int repetatariPerSet, double surplusCaloric)
     : PlanAntrenament(numePlan, durataLuni, nivelExperienta, zilePeSaptamana),
     tipSplit(std::move(tipSplit)),

@@ -10,7 +10,7 @@ private:
     int nivelDurere;
 public:
     PlanReabilitare(const std::string& numePlan, int durataLuni,
-                    const std::string& nivelExperienta, int zilePeSaptamana,
+                    NivelExperienta nivelExperienta, int zilePeSaptamana,
                     const std::string& tipLeziune, bool necesitaSupervizare, int nivelDurere);
 
     [[nodiscard]] double calculeazaIntensitate(int saptamana) const override {

@@ -6,10 +6,10 @@
 int PlanAntrenament::numarPlanuri = 0;  // Initializare static
 
 PlanAntrenament::PlanAntrenament(std::string  numePlan, int durataLuni,
-                                 std::string nivelExperienta, int zilePeSaptamana)
+                                 NivelExperienta nivelExperienta, int zilePeSaptamana)
     : numePlan(std::move(numePlan)),
       durataLuni(durataLuni),
-      nivelExperienta(std::move(nivelExperienta)),
+      nivelExperienta(nivelExperienta),
       zilePeSaptamana(zilePeSaptamana),
       saptamanaCurenta(1) {
 
@@ -21,12 +21,6 @@ PlanAntrenament::PlanAntrenament(std::string  numePlan, int durataLuni,
     if (zilePeSaptamana < 1 || zilePeSaptamana > 7) {
         throw ExceptieValidarePlan("Zile pe saptamana trebuie sa fie intre 1-7!");
     }
-
-    if (this->nivelExperienta != "Incepator" &&
-        this->nivelExperienta != "Intermediar" &&
-        this->nivelExperienta != "Avansat") {
-        throw ExceptieValidarePlan("Nivel experienta invalid!");
-        }
 
     numarPlanuri++;
 }

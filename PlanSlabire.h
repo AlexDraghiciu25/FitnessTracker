@@ -11,7 +11,7 @@ private:
 
 public:
     PlanSlabire(const std::string &numePlan, int durataLuni,
-                const std::string &nivelExperienta, int zilePeSaptamana,
+                NivelExperienta nivelExperienta, int zilePeSaptamana,
                 double targetCalorii, double deficitCaloric, int minuteCardioZilnic);
 
     [[nodiscard]] double calculeazaIntensitate(int saptamana) const override {

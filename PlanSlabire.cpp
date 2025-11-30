@@ -2,7 +2,7 @@
 #include "ExceptiiPlanuri.h"
 
 PlanSlabire::PlanSlabire(const std::string &numePlan, int durataLuni,
-                        const std::string &nivelExperienta, int zilePeSaptamana,
+                        NivelExperienta nivelExperienta, int zilePeSaptamana,
                         double targetCalorii, double deficitCaloric, int minuteCardioZilnic)
     : PlanAntrenament(numePlan, durataLuni, nivelExperienta, zilePeSaptamana),
     targetCaloriiPeZi(targetCalorii),

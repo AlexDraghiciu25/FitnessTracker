@@ -4,7 +4,7 @@
 #include "ExceptiiPlanuri.h"
 
 PlanAnduranta::PlanAnduranta(const std::string &numePlan, int durataLuni,
-                            const std::string &nivelExperienta, int zilePeSaptamana,
+                            NivelExperienta nivelExperienta, int zilePeSaptamana,
                             double distantaTinta, std::string tipActivitate,
                             int minuteBazaPerSesiune)
     : PlanAntrenament(numePlan, durataLuni, nivelExperienta, zilePeSaptamana),

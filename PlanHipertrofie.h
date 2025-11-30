@@ -12,7 +12,7 @@ private:
 
 public:
     PlanHipertrofie(const std::string& nume, int durataLuni,
-                    const std::string& nivelExperienta, int zilePeSaptamana,
+                    NivelExperienta nivelExperienta, int zilePeSaptamana,
                     std::string  tipSplit, int seturiPerGrupaMusculara,
                     int repetatariPerSet, double surplusCaloric);
 

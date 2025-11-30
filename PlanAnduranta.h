@@ -11,7 +11,7 @@ private:
 
 public:
     PlanAnduranta(const std::string &numePlan, int durataLuni,
-                    const std::string& nivelExperienta, int zilePeSaptamana,
+                    NivelExperienta nivelExperienta, int zilePeSaptamana,
                     double distantaTinta, std::string tipActivitate, int minuteBazaPerSesiune);
 
     [[nodiscard]] double calculeazaIntensitate(int saptamana) const override {

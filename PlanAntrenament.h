@@ -3,18 +3,19 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "Enums.h"
 
 class PlanAntrenament {
 protected:
     std::string numePlan;
     int durataLuni;
-    std::string nivelExperienta;
+    NivelExperienta nivelExperienta;
     int zilePeSaptamana;
     int saptamanaCurenta;
     static int numarPlanuri;
 public:
     PlanAntrenament(std::string  numePlan, int durataLuni,
-        std::string nivelExeperienta, int zilePeSaptamana);
+        NivelExperienta nivelExeperienta, int zilePeSaptamana);
 
     virtual ~PlanAntrenament() = default;
 
@@ -26,7 +27,7 @@ public:
     void afiseazaPlan(std::ostream& os) const {
         os << "\n=== PLAN ANTRENAMENT: " << numePlan << " ===\n";
         os << "Durata: " << durataLuni << " luni\n";
-        os << "Nivel: " << nivelExperienta << "\n";
+        os << "Nivel: " << toString(nivelExperienta) << "\n";
         os << "Zile/saptamana: " << zilePeSaptamana << "\n";
         os << "Saptamana curenta: " << saptamanaCurenta << "/" << (durataLuni * 4) << "\n";
         genereazaRecomandari(os);

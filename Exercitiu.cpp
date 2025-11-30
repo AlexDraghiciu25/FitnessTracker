@@ -1,11 +1,10 @@
 #include "Exercitiu.h"
 
-#include <utility>
+Exercitiu::Exercitiu()
+    : categorie(CategorieExercitiu::ALTELE), dificultate(Dificultate::USOR) {}
 
-Exercitiu::Exercitiu() = default;
-
-Exercitiu::Exercitiu(const std::string& nume,const std::string& categorie,
-                    double calorii_arse_pe_min, int durata,const std::string& dificultate) {
+Exercitiu::Exercitiu(const std::string& nume,CategorieExercitiu categorie,
+                    double calorii_arse_pe_min, int durata,Dificultate dificultate) {
     this->nume = nume;
     this->categorie = categorie;
     this->calorii_arse_pe_min = calorii_arse_pe_min;
@@ -18,7 +17,7 @@ const std::string& Exercitiu::get_nume() const{
     return this->nume;
 }
 
-const std::string& Exercitiu::get_categorie() const{
+CategorieExercitiu Exercitiu::get_categorie() const{
     return this->categorie;
 }
 
@@ -30,7 +29,7 @@ int Exercitiu::get_durata() const{
     return durata;
 }
 
-const std::string& Exercitiu::get_dificultate() const{
+Dificultate Exercitiu::get_dificultate() const{
         return this->dificultate;
 }
 
@@ -39,8 +38,8 @@ void Exercitiu::set_nume(const std::string &nume_nou) {
     this->nume = nume_nou;
 }
 
-void Exercitiu::set_categorie(std::string categorie_noua) {
-    this->categorie = std::move(categorie_noua);
+void Exercitiu::set_categorie(CategorieExercitiu categorie_noua) {
+    this->categorie = categorie_noua;
 }
 
 void Exercitiu::set_calorii_arse_pe_min(const double calorii_arse_pe_min_nou) {
@@ -51,7 +50,7 @@ void Exercitiu::set_durata(const int durata_noua) {
     this->durata = durata_noua;
 }
 
-void Exercitiu::set_dificultate(const std::string &dificultate_noua) {
+void Exercitiu::set_dificultate(Dificultate dificultate_noua) {
     this->dificultate = dificultate_noua;
 }
 
@@ -88,30 +87,11 @@ void Exercitiu::afisare_detaliata() const{
 
 std::ostream& operator<<(std::ostream& os, const Exercitiu& exercitiu) {
     os << "Numele exercitiului: " << exercitiu.nume << "\n";
-    os << "Categoria exercitiului: " << exercitiu.categorie << "\n";
+    os << "Categoria exercitiului: " << toString(exercitiu.categorie) << "\n";
     os << "Numarul de calorii arse pe minut: " << exercitiu.calorii_arse_pe_min << "\n";
     os << "Durata in minute a exercitiului: " << exercitiu.durata << "\n";
-    os << "Dificultatea exercitiului: " << exercitiu.dificultate << "\n";
+    os << "Dificultatea exercitiului: " << toString(exercitiu.dificultate) << "\n";
     return os;
-}
-
-std::istream& operator>>(std::istream& is, Exercitiu& exercitiu) {
-    std::cout << " numele exercitiului: ";
-    is >> exercitiu.nume;
-
-    std::cout << "Categoria exercitiului: ";
-    is >> exercitiu.categorie;
-
-    std::cout << "Numarul de calorii arse pe minut: ";
-    is >> exercitiu.calorii_arse_pe_min;
-
-    std::cout << "Durata in minute a exercitiului: ";
-    is >> exercitiu.durata;
-
-    std::cout << "Dificultatea exercitiului: ";
-    is >> exercitiu.dificultate;
-
-    return is;
 }
 
 bool Exercitiu::operator==(const Exercitiu& exercitiu) const{
