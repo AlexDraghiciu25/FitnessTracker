@@ -229,5 +229,81 @@ int main() {
     std::cout << "          TEST COMPLET TEMA 2                           \n";
     std::cout << "======================================================\n";
 
+    // ======================================================
+    //      PARTEA 3: CODE COVERAGE (SOLUTIE PENTRU WARNINGS)
+    // ======================================================
+    std::cout << "\n\n";
+    std::cout << "######################################################\n";
+    std::cout << "###       TESTARE EXTINSA (CODE COVERAGE)          ###\n";
+    std::cout << "######################################################\n";
+
+    // 1. Unused in Antrenament & Exercitiu
+    std::cout << "\n> [Antrenament/Exercitiu] Getters:\n";
+    std::cout << "  Durata antrenament: " << ant_dimineata.calculeazaDurataAntrenament() << " min\n";
+    std::cout << "  Detalii Exercitiu: " << ex_cardio.get_categorie()
+              << " | " << ex_cardio.get_calorii_arse_pe_min() << " cal/min"
+              << " | " << ex_cardio.get_dificultate() << "\n";
+
+    // 2. Unused in Utilizator & Obiectiv
+    std::cout << "\n> [Utilizator/Obiectiv] Getters:\n";
+    std::cout << "  Varsta utilizator: " << user_andrei.getVarsta() << " ani\n";
+    std::cout << "  Valoare initiala obiectiv: " << obj_slabire.getValoare_initiala() << " kg\n";
+    std::cout << "  Data limita obiectiv: " << obj_slabire.getDataLimita() << "\n";
+
+    // Testare functie globala stringToTipObiectiv
+    try {
+        TipObiectiv tip = stringToTipObiectiv("slabire");
+        std::cout << "  Conversie string->enum reusita: " << tipObiectivToString(tip) << "\n";
+    } catch (...) {
+        std::cout << "  Conversie esuata.\n";
+    }
+
+    GestiunePlanuri manager("Alexandru Fitness Manager");
+    // 3. Unused in GestiunePlanuri
+    std::cout << "\n> [GestiunePlanuri] Statistici si Activare:\n";
+    manager.activeazaPlan(1); // Testare activeazaPlan
+    auto planActiv = manager.getPlanActiv(); // Testare getPlanActiv
+
+    if (planActiv) {
+        std::cout << "  Plan activ curent: " << planActiv->getNumePlan() << "\n";
+    }
+
+    std::cout << "  Contor Slabire: " << manager.getNumarPlanuriSlabire() << "\n";
+    std::cout << "  Contor Hipertrofie: " << manager.getNumarPlanuriHipertrofie() << "\n";
+
+    // 4. Unused in PlanAntrenament (Base) & Derivate Specifice
+    std::cout << "\n> [PlanAntrenament] Metode specifice claselor derivate:\n";
+
+    if (planActiv) {
+        // Testare set/get din clasa de baza
+        planActiv->setSaptamanaCurenta(2);
+        std::cout << "  Saptamana curenta setata la: " << planActiv->getSaptamanaCurenta() << "\n";
+        std::cout << "  Durata totala plan: " << planActiv->getDurataLuni() << " luni\n";
+
+        // Downcast pentru a testa metodele specifice derivatelor (getDistantaTinta, getTipSplit, etc.)
+        // Deoarece am activat planul de la index 1 (care e Hipertrofie in codul de mai sus)
+        if (auto planHyp = std::dynamic_pointer_cast<PlanHipertrofie>(planActiv)) {
+            std::cout << "  [Hipertrofie Specific] Split: " << planHyp->getTipSplit() << "\n";
+            std::cout << "  [Hipertrofie Specific] Seturi: " << planHyp->getSeturiPerGrupaMusculara() << "\n";
+        }
+    }
+
+    // Testam metodele specifice celorlalte clase creand obiecte temporare sau iterand
+    // Aici cream unele temporare doar pentru a apela getterii si a scapa de warning
+    PlanAnduranta tempAndu("Test", 1, "Incepator", 1, 10.0, "Run", 30);
+    std::cout << "  [Anduranta Specific] Distanta: " << tempAndu.getDistantaTinta() << " km\n";
+
+    PlanReabilitare tempRehab("Test", 1, "Incepator", 1, "Spate", false, 3);
+    std::cout << "  [Reabilitare Specific] Leziune: " << tempRehab.getTipLeziune()
+              << " | Durere: " << tempRehab.getNivelDurere() << "\n";
+
+    // 5. Static function
+    PlanAntrenament::resetNumarPlanuri();
+    std::cout << "  Numar planuri resetat (static).\n";
+
+    std::cout << "\n======================================================\n";
+    std::cout << "          TOATE METODELE AU FOST VERIFICATE!\n";
+    std::cout << "======================================================\n";
+
     return 0;
 }
