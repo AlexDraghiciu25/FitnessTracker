@@ -22,9 +22,9 @@ PlanAntrenament::PlanAntrenament(std::string  numePlan, int durataLuni,
         throw ExceptieValidarePlan("Zile pe saptamana trebuie sa fie intre 1-7!");
     }
 
-    if (nivelExperienta != "Incepator" &&
-        nivelExperienta != "Intermediar" &&
-        nivelExperienta != "Avansat") {
+    if (this->nivelExperienta != "Incepator" &&
+        this->nivelExperienta != "Intermediar" &&
+        this->nivelExperienta != "Avansat") {
         throw ExceptieValidarePlan("Nivel experienta invalid!");
         }
 
