@@ -4,6 +4,7 @@
 #include <vector>
 #include  <algorithm>
 #include  "Obiectiv.h"
+#include <stdexcept>
 
 // Obiectivul default
 Obiectiv::Obiectiv()
@@ -112,8 +113,7 @@ double Obiectiv::CalculeazaProgrez() const {
             break;
 
         default:
-            throw ;
-    }
+            throw std::runtime_error("Eroare: Tip obiectiv necunoscut in calculul progresului!");    }
 
     // Progresul este un procent intre 0 si 100
     // Pun conditii sa nu depasesc aceste limite
