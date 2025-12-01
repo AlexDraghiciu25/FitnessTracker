@@ -44,6 +44,26 @@ public:
         return new PlanSlabire(*this);
     }
 
+    [[nodiscard]] std::vector<std::string> genereazaProgram(int saptamana) const override {
+        std::vector<std::string> program;
+
+        int minuteCardio = minuteCardioZilnic + (saptamana * 3); // Progresie
+        double intensitate = calculeazaIntensitate(saptamana);
+
+        for (int zi = 1; zi <= zilePeSaptamana; zi++) {
+            std::string sesiune = "Zi " + std::to_string(zi) + ": ";
+            sesiune += std::to_string(minuteCardio) + " min cardio @ ";
+            sesiune += std::to_string(static_cast<int>(intensitate)) + "% intensitate";
+            sesiune += " (≈" + std::to_string(static_cast<int>(minuteCardio * 8)) + " kcal)";
+            program.push_back(sesiune);
+        }
+
+        program.push_back("NOTA: Mentine deficit caloric de " +
+                         std::to_string(static_cast<int>(deficitCaloric)) + " kcal/zi");
+
+        return program;
+    }
+
     [[nodiscard]] double getTargetCalorii() const {
         return targetCaloriiPeZi;
     }

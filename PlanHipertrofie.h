@@ -44,6 +44,36 @@ public:
         return new PlanHipertrofie(*this);
     }
 
+    [[nodiscard]] std::vector<std::string> genereazaProgram(int saptamana) const override {
+        std::vector<std::string> program;
+
+        if (tipSplit == "Push/Pull/Legs" || tipSplit == "PPL") {
+            program.push_back("Zi 1 (PUSH): Piept, Umeri, Triceps - " +
+                             std::to_string(seturiPerGrupaMusculara) + " seturi x " +
+                             std::to_string(repetariPerSet) + " reps");
+            program.push_back("Zi 2 (PULL): Spate, Biceps - " +
+                             std::to_string(seturiPerGrupaMusculara) + " seturi x " +
+                             std::to_string(repetariPerSet) + " reps");
+            program.push_back("Zi 3 (LEGS): Picioare, Abdomen - " +
+                             std::to_string(seturiPerGrupaMusculara) + " seturi x " +
+                             std::to_string(repetariPerSet) + " reps");
+        } else if (tipSplit == "Full" || tipSplit == "Full Body") {
+            for (int zi = 1; zi <= zilePeSaptamana; zi++) {
+                program.push_back("Zi " + std::to_string(zi) + " (Full Body): " +
+                                 "Toate grupele musculare - " +
+                                 std::to_string(seturiPerGrupaMusculara / 2) + " seturi/grupa");
+            }
+        } else {
+            program.push_back("Split personalizat: " + tipSplit);
+        }
+
+        int volumeTotal = seturiPerGrupaMusculara * zilePeSaptamana * (1 + saptamana / 4);
+        program.push_back("VOLUM TOTAL SAPTAMANAL: " + std::to_string(volumeTotal) + " seturi");
+        program.push_back("SURPLUS CALORIC: +" + std::to_string(static_cast<int>(surplusCaloric)) + " kcal/zi");
+
+        return program;
+    }
+
     [[nodiscard]] const std::string& getTipSplit() const {
         return tipSplit;
     }

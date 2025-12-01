@@ -49,6 +49,38 @@ public:
         return new PlanAnduranta(*this);
     }
 
+    [[nodiscard]] std::vector<std::string> genereazaProgram(int saptamana) const override {
+        std::vector<std::string> program;
+
+        // Progresie de distanta (creste cu 10% pe saptamana)
+        double distantaSaptamana = distantaTinta * (0.3 + saptamana * 0.1);
+        if (distantaSaptamana > distantaTinta) distantaSaptamana = distantaTinta;
+
+        int minutePerSesiune = minuteBazaPerSesiune + (saptamana * 5);
+
+        for (int zi = 1; zi <= zilePeSaptamana; zi++) {
+            std::string sesiune = "Zi " + std::to_string(zi) + ": ";
+
+            if (zi % 3 == 1) { // Zi grea
+                sesiune += tipActivitate + " INTENS - ";
+                sesiune += std::to_string(minutePerSesiune + 10) + " min, ";
+                sesiune += std::to_string(static_cast<int>(distantaSaptamana / zilePeSaptamana * 1.3)) + " km";
+            } else if (zi % 3 == 2) { // Zi usoara
+                sesiune += tipActivitate + " USOR - ";
+                sesiune += std::to_string(minutePerSesiune - 10) + " min, ";
+                sesiune += std::to_string(static_cast<int>(distantaSaptamana / zilePeSaptamana * 0.7)) + " km";
+            } else { // Zi recuperare activa
+                sesiune += "Recuperare activa - 20 min mars/stretching";
+            }
+
+            program.push_back(sesiune);
+        }
+
+        program.push_back("OBIECTIV SAPTAMANAL: " + std::to_string(static_cast<int>(distantaSaptamana)) + " km");
+
+        return program;
+    }
+
     [[nodiscard]] double getDistantaTinta() const {
         return distantaTinta;
     }

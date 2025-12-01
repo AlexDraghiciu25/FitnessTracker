@@ -43,6 +43,38 @@ public:
         return new PlanReabilitare(*this);
     }
 
+    [[nodiscard]] std::vector<std::string> genereazaProgram(int saptamana) const override {
+        std::vector<std::string> program;
+
+        double intensitate = calculeazaIntensitate(saptamana);
+
+        for (int zi = 1; zi <= zilePeSaptamana; zi++) {
+            std::string sesiune = "Zi " + std::to_string(zi) + ": ";
+
+            if (saptamana <= 2) {
+                sesiune += "Mobilitate pasiva + Stretching light (15 min)";
+            } else if (saptamana <= 4) {
+                sesiune += "Exercitii izometrice + Mobilitate (20 min) @ " +
+                          std::to_string(static_cast<int>(intensitate)) + "%";
+            } else {
+                sesiune += "Exercitii de forta usoara + Proprioceptie (30 min) @ " +
+                          std::to_string(static_cast<int>(intensitate)) + "%";
+            }
+
+            sesiune += " | Durere acceptabila: max " + std::to_string(nivelDurere - saptamana) + "/10";
+            program.push_back(sesiune);
+        }
+
+        if (necesitaSupervizare) {
+            program.emplace_back("ATENTIE: Planul necesita supervizare medicala!");
+            // .push_back imi da warning idk why
+        }
+
+        program.push_back("Leziune tratata: " + tipLeziune);
+
+        return program;
+    }
+
     [[nodiscard]] const std::string& getTipLeziune() const {
         return tipLeziune;
     }

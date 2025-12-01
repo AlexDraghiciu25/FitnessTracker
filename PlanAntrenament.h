@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include "Enums.h"
+#include <vector>
 
 class PlanAntrenament {
 protected:
@@ -23,6 +24,26 @@ public:
     [[nodiscard]] virtual std::string getTipPlan() const = 0;
     virtual void genereazaRecomandari(std::ostream& os) const = 0;
     [[nodiscard]] virtual PlanAntrenament* clone() const = 0;
+
+    [[nodiscard]] virtual std::vector<std::string> genereazaProgram(int saptamana) const = 0;
+    void executaSaptamana(int saptamana) {
+        std::cout << "\n=== EXECUTARE SAPTAMANA " << saptamana
+                  << " - " << numePlan << " ===\n";
+
+        // Apel virtual - fiecare derivata genereaza propriul program
+        auto program = genereazaProgram(saptamana);
+        for (const auto& zi : program) {
+            std::cout << "  " << zi << "\n";
+        }
+
+        // Logica comuna pentru toate planurile
+        std::cout << "\n  Intensitate recomandata: "
+                  << calculeazaIntensitate(saptamana) << "%\n";
+        std::cout << "  Tip plan: " << getTipPlan() << "\n";
+
+        // Actualizare stare
+        saptamanaCurenta = saptamana;
+    }
 
     void afiseazaPlan(std::ostream& os) const {
         os << "\n=== PLAN ANTRENAMENT: " << numePlan << " ===\n";
