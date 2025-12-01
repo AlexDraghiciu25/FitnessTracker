@@ -54,7 +54,7 @@ public:
             std::string sesiune = "Zi " + std::to_string(zi) + ": ";
             sesiune += std::to_string(minuteCardio) + " min cardio @ ";
             sesiune += std::to_string(static_cast<int>(intensitate)) + "% intensitate";
-            sesiune += " (≈" + std::to_string(static_cast<int>(minuteCardio * 8)) + " kcal)";
+            sesiune += " (" + std::to_string(static_cast<int>(minuteCardio * 8)) + " kcal)";
             program.push_back(sesiune);
         }
 

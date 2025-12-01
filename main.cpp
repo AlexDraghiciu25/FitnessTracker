@@ -151,7 +151,6 @@ int main() {
 
         try {
             std::cout << "Incerc sa creez un plan de slabire invalid, deficit prea mic...\n";
-            // Deficitul minim e 200, noi punem 50 -> Va arunca ExceptieConfigurare
             PlanSlabire planGresit("Fail Plan", 3, NivelExperienta::INCEPATOR, 3, 1500, 50, 20);
         } catch (const ExceptieConfigurare& e) {
             std::cout << ">>> EXCEPTIE PRINSA: " << e.what() << "\n";
@@ -161,7 +160,6 @@ int main() {
 
         try {
              std::cout << "Incerc sa creez un plan cu durata invalida (15 luni)...\n";
-             // Durata max e 12 -> Va arunca ExceptieValidarePlan
              PlanHipertrofie planLung("Too Long", 15, NivelExperienta::AVANSAT, 5, "PPL", 12, 10, 300);
         } catch (const ExceptiePlan& e) {
              std::cout << ">>> EXCEPTIE PRINSA: " << e.what() << "\n";
@@ -173,19 +171,15 @@ int main() {
 
         GestiunePlanuri manager("Alexandru Fitness Manager");
 
-        // Adaugare Plan SLABIRE (Pointer la Derivata -> Pointer la Baza)
         manager.adaugaPlan(std::make_shared<PlanSlabire>(
             "Summer Shredding", 3, NivelExperienta::INTERMEDIAR, 4, 1900, 500, 30));
 
-        // Adaugare Plan HIPERTROFIE
         manager.adaugaPlan(std::make_shared<PlanHipertrofie>(
             "Winter Bulk", 6, NivelExperienta::AVANSAT, 5, "Push/Pull/Legs", 20, 10, 300));
 
-        // Adaugare Plan ANDURANTA
         manager.adaugaPlan(std::make_shared<PlanAnduranta>(
             "Pregatire Maraton", 4, NivelExperienta::AVANSAT, 6, 42.0, "Alergare", 50));
 
-        // Adaugare Plan REABILITARE (A 4-a derivata ceruta de tema)
         manager.adaugaPlan(std::make_shared<PlanReabilitare>(
             "Recuperare Menisc", 2, NivelExperienta::INCEPATOR, 3, "Ruptura Menisc", true, 6));
 
@@ -195,34 +189,114 @@ int main() {
 
         // --- 7. AFISARE POLIMORFICA (VIRTUAL FUNCTIONS) ---
         std::cout << "\n--- 7. AFISARE TOATE PLANURILE Apel Functii Virtuale ---\n";
-        // Apeleaza afiseazaPlan() care apeleaza virtuala genereazaRecomandari()
         manager.afiseazaToatePlanurile();
 
 
         // --- 8. TESTARE DYNAMIC_CAST ---
         std::cout << "\n--- 8. TESTARE DYNAMIC_CAST Filtrare Planuri Slabire ---\n";
-        // Aceasta functie itereaza prin lista si foloseste dynamic_cast pentru a gasi doar planurile de slabire
-        // si a afisa deficitul caloric (metoda care nu exista in baza)
         manager.afiseazaPlanuriSlabire();
 
 
         // --- 9. TESTARE COPY CONSTRUCTOR (DEEP COPY) ---
         std::cout << "\n--- 9. TESTARE DEEP COPY GestiunePlanuri ---\n";
         {
-            const GestiunePlanuri& managerCopie = manager; // Copy Constructor
+            const GestiunePlanuri& managerCopie = manager;
             std::cout << "S-a creat o copie a managerului.\n";
             std::cout << "Planuri in original: " << manager.getNumarPlanuri() << "\n";
             std::cout << "Planuri in copie: " << managerCopie.getNumarPlanuri() << "\n";
-
-            // Daca ai implementat clone() corect in GestiunePlanuri, adresele pointerilor ar trebui sa fie diferite,
-            // dar continutul identic.
-        } // Aici se distruge copia (destructor), originalul trebuie sa ramana intact
+        }
 
 
         // --- 10. INTENSITATE MEDIE ---
         std::cout << "\n--- 10.Intensitate Medie ---\n";
         std::cout << "Intensitatea medie a tuturor planurilor din manager: "
                   << manager.calculeazaIntensitateaMedie() << "%\n";
+
+
+        // ======================================================
+        //      PARTEA 2.5: TESTE NOI TEMA 2 - RECOMANDARI FINALE
+        // ======================================================
+        std::cout << "\n\n";
+        std::cout << "######################################################\n";
+        std::cout << "###     TESTE NOI TEMA 2 - RECOMANDARI FINALE      ###\n";
+        std::cout << "######################################################\n";
+
+        // --- 11. FUNCTIE VIRTUALA SPECIFICA: genereazaProgram() ---
+        std::cout << "\n--- 11. FUNCTIE VIRTUALA SPECIFICA genereazaProgram() ---\n";
+        manager.activeazaPlan(0); // Activam planul de slabire
+        auto planActiv = manager.getPlanActiv();
+
+        if (planActiv) {
+            std::cout << "\n[TEST] Generare program pentru " << planActiv->getNumePlan() << ":\n";
+            auto program = planActiv->genereazaProgram(2);
+            for (const auto& zi : program) {
+                std::cout << "  " << zi << "\n";
+            }
+           std::cout << "   [!] Metoda genereazaProgram() nu este implementata inca.\n";
+        }
+
+        // --- 12. INTERFATA NON-VIRTUALA executaSaptamana() ---
+        std::cout << "\n--- 12. INTERFATA NON-VIRTUALA executaSaptamana() ---\n";
+
+        // VARIANTA 1: Apel direct pe plan individual
+        std::cout << "\n[A] Executie PLAN INDIVIDUAL (prin pointer activ):\n";
+        if (planActiv) {
+            // AICI AM DECOMENTAT PENTRU A REZOLVA WARNING-UL
+            planActiv->executaSaptamana(3);
+        }
+
+        // VARIANTA 2: Testam pe alt plan (Hipertrofie)
+        std::cout << "\n[B] Executie alt plan (Hipertrofie - saptamana 5):\n";
+        manager.activeazaPlan(1); // Activam plan hipertrofie
+        if (auto planHipertrofie = manager.getPlanActiv()) {
+            // AICI AM DECOMENTAT PENTRU A REZOLVA WARNING-UL
+            planHipertrofie->executaSaptamana(5);
+        }
+
+        // VARIANTA 3: Simulare progresie multi-saptamani
+        std::cout << "\n[C] Simulare PROGRESIE 3 saptamani (Plan Anduranta):\n";
+        manager.activeazaPlan(2); // Plan Anduranta
+        if (auto planAnduranta = manager.getPlanActiv()) {
+            for (int sapt = 1; sapt <= 3; sapt++) {
+                std::cout << "\n>>> SAPTAMANA " << sapt << " <<<\n";
+                planAnduranta->executaSaptamana(sapt);
+                std::cout << "---------------------------------\n";
+            }
+        }
+
+        // VARIANTA 4: Apel prin GestiunePlanuri pe TOATE planurile
+        std::cout << "\n[D] Executie TOATE PLANURILE simultan (sapt 4):\n";
+
+        // --- 13. FUNCTII STATICE UTILE ---
+        std::cout << "\n--- 13. FUNCTII STATICE UTILE ---\n";
+
+        // --- 14. FUNCTII DE NIVEL INALT (in loc de getteri) ---
+        std::cout << "\n--- 14. FUNCTII DE NIVEL INALT ---\n";
+
+        manager.activeazaPlan(0); // Slabire
+        auto planSlabire = std::dynamic_pointer_cast<PlanSlabire>(manager.getPlanActiv());
+        //if (planSlabire) {
+            // TODO: Decomenteaza dupa implementarea metodelor specifice
+            /*
+            std::cout << "[PlanSlabire] Pierdere estimata: "
+                      << planSlabire->estimeazaPierdereGreutate() << " kg\n";
+            */
+        //}
+
+        // --- 15. TESTARE COPY-AND-SWAP ---
+        std::cout << "\n--- 15. TESTARE COPY-AND-SWAP ---\n";
+        GestiunePlanuri managerB("User B");
+        managerB.adaugaPlan(std::make_shared<PlanSlabire>("Plan B", 1, NivelExperienta::INCEPATOR, 3, 1500, 300, 20));
+
+        std::cout << "Inainte de atribuire:\n";
+        std::cout << "  Manager original: " << manager.getNumarPlanuri() << " planuri\n";
+        std::cout << "  Manager B: " << managerB.getNumarPlanuri() << " planuri\n";
+
+        managerB = manager; // Copy-and-swap
+
+        std::cout << "Dupa atribuire (managerB = manager):\n";
+        std::cout << "  Manager original: " << manager.getNumarPlanuri() << " planuri\n";
+        std::cout << "  Manager B: " << managerB.getNumarPlanuri() << " planuri\n";
 
     } catch (const std::exception& e) {
         std::cout << "\nEroare neprinsa in main: " << e.what() << "\n";
