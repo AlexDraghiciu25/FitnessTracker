@@ -1,20 +1,20 @@
 #include <iostream>
 #include <string>
-#include "Enums.h"
+#include "../include/Enums.h"
 #include <memory>
 
 // --- HEADERS TEMA 1 ---
-#include "Exercitiu.h"
+#include "../include/Exercitiu.h"
 #include "../include/Antrenament.h"
-#include "Utilizator.h"
-#include "Obiectiv.h"
+#include "../include/Utilizator.h"
+#include "../include/Obiectiv.h"
 
 // --- HEADERS TEMA 2 (Noi) ---
-#include "PlanAntrenament.h"
+#include "../include/PlanAntrenament.h"
 #include "../include/PlanSlabire.h"
 #include "../include/PlanHipertrofie.h"
 #include "../include/PlanAnduranta.h"
-#include "PlanReabilitare.h"
+#include "../include/PlanReabilitare.h"
 #include "../include/GestiunePlanuri.h"
 #include "../include/ExceptiiPlanuri.h"
 
