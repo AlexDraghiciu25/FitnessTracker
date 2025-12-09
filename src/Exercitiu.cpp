@@ -1,4 +1,4 @@
-#include "Exercitiu.h"
+#include "../include/Exercitiu.h"
 
 Exercitiu::Exercitiu()
     : categorie(CategorieExercitiu::ALTELE), dificultate(Dificultate::USOR) {}

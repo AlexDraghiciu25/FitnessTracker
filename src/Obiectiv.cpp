@@ -3,7 +3,7 @@
 #include <utility>
 #include <vector>
 #include  <algorithm>
-#include  "Obiectiv.h"
+#include "../include/Obiectiv.h"
 #include <stdexcept>
 
 // Obiectivul default

@@ -57,25 +57,25 @@ endif()
 
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${MAIN_EXECUTABLE_NAME}
-    main.cpp
-        Exercitiu.cpp
-        Antrenament.cpp
-        Utilizator.cpp
-        Obiectiv.cpp
-        PlanAntrenament.h
-        PlanAntrenament.cpp
-        ExceptiiPlanuri.h
-        PlanSlabire.h
-        PlanSlabire.cpp
-        PlanHipertrofie.h
-        PlanHipertrofie.cpp
-        PlanAnduranta.h
-        PlanAnduranta.cpp
-        PlanReabilitare.h
-        PlanReabilitare.cpp
-        GestiunePlanuri.h
-        GestiunePlanuri.cpp
-        Enums.h
+        src/main.cpp
+        src/Exercitiu.cpp
+        src/Antrenament.cpp
+        src/Utilizator.cpp
+        src/Obiectiv.cpp
+        include/PlanAntrenament.h
+        src/PlanAntrenament.cpp
+        include/ExceptiiPlanuri.h
+        include/PlanSlabire.h
+        src/PlanSlabire.cpp
+        include/PlanHipertrofie.h
+        src/PlanHipertrofie.cpp
+        include/PlanAnduranta.h
+        src/PlanAnduranta.cpp
+        include/PlanReabilitare.h
+        src/PlanReabilitare.cpp
+        include/GestiunePlanuri.h
+        src/GestiunePlanuri.cpp
+        include/Enums.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

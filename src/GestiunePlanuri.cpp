@@ -1,28 +1,20 @@
-#include "GestiunePlanuri.h"
-#include "PlanSlabire.h"      // Necesare pentru dynamic_cast
-#include "PlanHipertrofie.h"
+#include "../include/GestiunePlanuri.h"
+#include "../include/PlanSlabire.h"
+#include "../include/PlanHipertrofie.h"
 #include <iostream>
-#include <numeric> // Pentru std::accumulate (optional, daca vrei stil STL)
+#include <numeric>
 
-// Constructor
-GestiunePlanuri::GestiunePlanuri(std::string nume) 
+GestiunePlanuri::GestiunePlanuri(std::string nume)
     : numeUtilizator(std::move(nume)) {}
 
-// =========================================================
-// [CERINTA TEMA 2] COPY CONSTRUCTOR (DEEP COPY)
-// =========================================================
 GestiunePlanuri::GestiunePlanuri(const GestiunePlanuri& other) 
     : numeUtilizator(other.numeUtilizator), planActiv(nullptr) {
-    
-    // Iteram prin planurile din obiectul sursa si le CLONAM
-    // Astfel, noul obiect va avea propriile sale copii ale planurilor, nu doar pointeri comuni
+
     for (const auto& plan : other.planuri) {
-        // Folosim metoda virtuala clone() si o convertim inapoi in shared_ptr
         planuri.push_back(std::shared_ptr<PlanAntrenament>(plan->clone()));
     }
 
     // Copiem si planul activ daca exista, cautandu-l in noua lista clonata
-    // (Aceasta e o logica mai avansata pentru a mentine consistenta pointerilor)
     if (other.planActiv) {
         // Simplificare: Il clonam separat sau il lasam null daca nu e critic
         planActiv = std::shared_ptr<PlanAntrenament>(other.planActiv->clone());
@@ -35,10 +27,6 @@ void GestiunePlanuri::adaugaPlan(const std::shared_ptr<PlanAntrenament>& plan) {
 }
 
 void GestiunePlanuri::activeazaPlan(int index) {
-    // FIX:
-    // 1. Verificam >= 0 pentru a ne asigura ca nu e negativ
-    // 2. Folosim static_cast<size_t>(index) pentru a compara corect cu unsigned
-    // 3. Folosim < (strict mai mic) in loc de <=
     if (index >= 0 && static_cast<std::size_t>(index) < planuri.size()) {
         planActiv = planuri[index];
         std::cout << "Planul '" << planActiv->getNumePlan() << "' a fost activat!\n";
@@ -94,9 +82,6 @@ int GestiunePlanuri::getNumarPlanuriHipertrofie() const {
     return count;
 }
 
-// =========================================================
-// [CERINTA TEMA 2] DYNAMIC_CAST PENTRU DOWNCAST CU SENS
-// =========================================================
 void GestiunePlanuri::afiseazaPlanuriSlabire() const {
     std::cout << "\n--- Analiza Detaliata: Planuri de Slabire ---\n";
     bool gasit = false;

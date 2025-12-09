@@ -5,18 +5,18 @@
 
 // --- HEADERS TEMA 1 ---
 #include "Exercitiu.h"
-#include "Antrenament.h"
+#include "../include/Antrenament.h"
 #include "Utilizator.h"
 #include "Obiectiv.h"
 
 // --- HEADERS TEMA 2 (Noi) ---
 #include "PlanAntrenament.h"
-#include "PlanSlabire.h"
-#include "PlanHipertrofie.h"
-#include "PlanAnduranta.h"
+#include "../include/PlanSlabire.h"
+#include "../include/PlanHipertrofie.h"
+#include "../include/PlanAnduranta.h"
 #include "PlanReabilitare.h"
-#include "GestiunePlanuri.h"
-#include "ExceptiiPlanuri.h"
+#include "../include/GestiunePlanuri.h"
+#include "../include/ExceptiiPlanuri.h"
 
 /*
     CARDIO: alergare, ciclism, inot, burpees;
@@ -267,12 +267,6 @@ int main() {
         // VARIANTA 4: Apel prin GestiunePlanuri pe TOATE planurile
         std::cout << "\n[D] Executie TOATE PLANURILE simultan (sapt 4):\n";
 
-        // --- 13. FUNCTII STATICE UTILE ---
-        std::cout << "\n--- 13. FUNCTII STATICE UTILE ---\n";
-
-        // --- 14. FUNCTII DE NIVEL INALT (in loc de getteri) ---
-        std::cout << "\n--- 14. FUNCTII DE NIVEL INALT ---\n";
-
         manager.activeazaPlan(0); // Slabire
         auto planSlabire = std::dynamic_pointer_cast<PlanSlabire>(manager.getPlanActiv());
         //if (planSlabire) {
@@ -283,7 +277,6 @@ int main() {
             */
         //}
 
-        // --- 15. TESTARE COPY-AND-SWAP ---
         std::cout << "\n--- 15. TESTARE COPY-AND-SWAP ---\n";
         GestiunePlanuri managerB("User B");
         managerB.adaugaPlan(std::make_shared<PlanSlabire>("Plan B", 1, NivelExperienta::INCEPATOR, 3, 1500, 300, 20));

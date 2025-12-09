@@ -13,14 +13,15 @@ private:
     std::shared_ptr<PlanAntrenament> planActiv;
 
 public:
-    explicit GestiunePlanuri(std::string nume);
+    explicit GestiunePlanuri(std::string nume);     // manager de planuri pt un utilizator
 
-    GestiunePlanuri(const GestiunePlanuri& other);
+    GestiunePlanuri(const GestiunePlanuri& other);      //constr cop
     GestiunePlanuri& operator=(GestiunePlanuri other) {
         swap(*this, other);
         return *this;
     }
 
+    // Schimb continutul a 2 ob
     friend void swap(GestiunePlanuri& prim, GestiunePlanuri& secund) noexcept {
         using std::swap;
         swap(prim.numeUtilizator, secund.numeUtilizator);

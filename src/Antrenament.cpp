@@ -1,4 +1,4 @@
-#include "Antrenament.h"
+#include "../include/Antrenament.h"
 #include <iostream>
 
 Antrenament::Antrenament() = default;    //Constr def

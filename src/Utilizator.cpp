@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
-#include "Obiectiv.h"
-#include "Antrenament.h"
-#include "Utilizator.h"
+#include "../include/Obiectiv.h"
+#include "../include/Antrenament.h"
+#include "../include/Utilizator.h"
 
 Utilizator::Utilizator() = default;
 
