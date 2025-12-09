@@ -1,7 +1,7 @@
 #ifndef OOP_PLANANDURANTA_H
 #define OOP_PLANANDURANTA_H
 
-#include "../PlanAntrenament.h"
+#include "../include/PlanAntrenament.h"
 
 class PlanAnduranta : public PlanAntrenament {
 private:
