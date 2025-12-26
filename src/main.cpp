@@ -106,6 +106,12 @@ void testeazaTema3() {
         progresUtilizator.setProgres(76.0, "Trei sferturi complete!", "PROGRES");
         progresUtilizator.setProgres(100.0, "Obiectiv atins! Felicitari!", "FINALIZARE");
 
+        //
+        progresUtilizator.setProgres(100.0, "Obiectiv atins! Felicitari!", "FINALIZARE");
+        // ADAUGĂ ACEASTĂ LINIE:
+        std::cout << "Verificare getter progres: " << progresUtilizator.getProgres() << "%\n";
+        //
+
         colectorStats->afiseazaRaport();
 
         progresUtilizator.detasare(notifConsola);
@@ -126,6 +132,17 @@ void testeazaTema3() {
         std::vector<double> caloriiSaptamana = {450.5, 520.0, 380.2, 610.8, 490.0, 555.3, 420.7};
         statsCalorii.adaugaMultiple(caloriiSaptamana);
 
+        // --- TESTE PENTRU ELIMINARE WARNINGS (cppcheck) ---
+        statsCalorii.adauga(650.0); // Folosim funcția adauga()
+        std::cout << "  [Test] Numar total elemente in vectorul brut (getDate): "
+                  << statsCalorii.getDate().size() << "\n"; // Folosim getDate()
+
+        StatisticiCalculator<int> deSters("Test Reset");
+        deSters.adauga(100);
+        deSters.reseteaza(); // Folosim funcția reseteaza()
+        std::cout << "  [Test] Dupa reset, elemente: " << deSters.getNumarElemente() << "\n";
+        // --------------------------------------------------
+
         std::cout << " Date adaugate: " << statsCalorii.getNumarElemente() << " zile\n";
         statsCalorii.afiseazaRaportComplet();
 
@@ -145,7 +162,7 @@ void testeazaTema3() {
         double targetCalorii = 500.0;
         size_t zilePesteTarget = statsCalorii.numaraDepasiri(targetCalorii);
         std::cout << "Zile cu peste " << targetCalorii << " kcal: "
-                  << zilePesteTarget << "/" << caloriiSaptamana.size() << "\n";
+                  << zilePesteTarget << "/" << statsCalorii.getNumarElemente() << "\n";
 
         auto caloriiInterval = statsCalorii.filtreazaInterval(400.0, 550.0);
         std::cout << "Zile cu calorii in [400-550]: " << caloriiInterval.size() << "\n";
