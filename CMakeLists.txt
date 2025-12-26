@@ -76,6 +76,10 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         include/GestiunePlanuri.h
         src/GestiunePlanuri.cpp
         include/Enums.h
+        include/PlanFactory.h
+        src/PlanFactory.cpp
+        include/ObserverPattern.h
+        include/StatisticiTemplate.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

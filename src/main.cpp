@@ -18,6 +18,266 @@
 #include "../include/GestiunePlanuri.h"
 #include "../include/ExceptiiPlanuri.h"
 
+// --- HEADERS TEMA 3 ---
+#include "../include/PlanFactory.h"
+#include "../include/ObserverPattern.h"
+#include "../include/StatisticiTemplate.h"
+
+void testeazaTema3() {
+    std::cout << "\n\n";
+    std::cout << "==========================================================\n";
+    std::cout << "||                  TESTE TEMA 3                        ||\n";
+    std::cout << "||  Design Patterns + Templates + Advanced C++          ||\n";
+    std::cout << "==========================================================\n";
+
+    // ========== 1. FACTORY PATTERN ==========
+    std::cout << "\n--- 1. FACTORY PATTERN ---\n";
+    std::cout << "Testare creeare planuri cu Factory Method...\n";
+
+    try {
+        auto planQuick = PlanFactory::creazaPlan(
+            TipPlanEnum::SLABIRE,
+            "Quick Start Plan",
+            2,
+            NivelExperienta::INCEPATOR,
+            3
+        );
+
+        std::cout << "\n Plan creat cu Factory (parametri default):\n";
+        std::cout << "  " << planQuick->getNumePlan()
+                  << " | Tip: " << planQuick->getTipPlan() << "\n";
+
+        auto planCustom = PlanFactory::creazaPlanHipertrofie(
+            "Custom Muscle Builder",
+            6,
+            NivelExperienta::AVANSAT,
+            5,
+            "Push/Pull/Legs",
+            24,
+            12,
+            400.0
+        );
+
+        std::cout << "\n Plan specializat creat cu Factory:\n";
+        planCustom->genereazaRecomandari(std::cout);
+
+        std::cout << "\n Test conversie string -> TipPlanEnum:\n";
+        auto tip1 = PlanFactory::stringLaTipPlan("slabire");
+        auto tip2 = PlanFactory::stringLaTipPlan("HIPERTROFIE");
+        auto tip3 = PlanFactory::stringLaTipPlan("Anduranta");
+
+        std::cout << "  'slabire' -> " << tipPlanLaString(tip1) << "\n";
+        std::cout << "  'HIPERTROFIE' -> " << tipPlanLaString(tip2) << "\n";
+        std::cout << "  'Anduranta' -> " << tipPlanLaString(tip3) << "\n";
+
+        try {
+            PlanFactory::stringLaTipPlan("TipInvalid");
+        } catch (const ExceptieValidarePlan& e) {
+            std::cout << "\n Factory arunca exceptie pentru tip invalid: " << e.what() << "\n";
+        }
+
+    } catch (const std::exception& e) {
+        std::cout << "✗ Eroare Factory: " << e.what() << "\n";
+    }
+
+    // ========== 2. OBSERVER PATTERN ==========
+    std::cout << "\n\n--- 2. OBSERVER PATTERN ---\n";
+    std::cout << "Testare sistem notificari progres...\n";
+
+    try {
+        SubiectProgres progresUtilizator;
+
+        auto notifConsola = std::make_shared<NotificareConsola>("Sistem Principal");
+        auto detectorMilestone = std::make_shared<DetectorMilestone>();
+        auto colectorStats = std::make_shared<ColectorStatistici>();
+
+        progresUtilizator.atasare(notifConsola);
+        progresUtilizator.atasare(detectorMilestone);
+        progresUtilizator.atasare(colectorStats);
+
+        std::cout << "\n Observatori atasati: " << progresUtilizator.getNumarObservatori() << "\n";
+
+        std::cout << "\n--- SIMULARE PROGRES ---\n";
+
+        progresUtilizator.setProgres(0.0, "Plan de antrenament inceput!", "START");
+        progresUtilizator.setProgres(15.0, "Prima saptamana completata", "SAPTAMANA");
+        progresUtilizator.setProgres(27.0, "Primul milestone 25% atins!", "PROGRES");
+        progresUtilizator.setProgres(50.0, "La jumatatea drumului!", "MILESTONE");
+        progresUtilizator.setProgres(76.0, "Trei sferturi complete!", "PROGRES");
+        progresUtilizator.setProgres(100.0, "Obiectiv atins! Felicitari!", "FINALIZARE");
+
+        colectorStats->afiseazaRaport();
+
+        progresUtilizator.detasare(notifConsola);
+        std::cout << "\n Dupa detasare: " << progresUtilizator.getNumarObservatori() << " observatori\n";
+
+    } catch (const std::exception& e) {
+        std::cout << "x Eroare Observer: " << e.what() << "\n";
+    }
+
+    // ========== 3. TEMPLATE CLASS ==========
+    std::cout << "\n\n--- 3. TEMPLATE CLASS (Statistici) ---\n";
+    std::cout << "Testare StatisticiCalculator<T>...\n";
+
+    try {
+        std::cout << "\n--- INSTANTIERE 1: StatisticiCalculator<double> ---\n";
+        StatisticiCalculator<double> statsCalorii("Calorii Arse pe Zi");
+
+        std::vector<double> caloriiSaptamana = {450.5, 520.0, 380.2, 610.8, 490.0, 555.3, 420.7};
+        statsCalorii.adaugaMultiple(caloriiSaptamana);
+
+        std::cout << " Date adaugate: " << statsCalorii.getNumarElemente() << " zile\n";
+        statsCalorii.afiseazaRaportComplet();
+
+        std::cout << "\n--- INSTANTIERE 2: StatisticiCalculator<int> ---\n";
+        StatisticiCalculator<int> statsAntrenamente("Antrenamente pe Luna");
+
+        std::vector<int> antrenamenteLunare = {12, 15, 10, 18, 14, 16};
+        statsAntrenamente.adaugaMultiple(antrenamenteLunare);
+
+        std::cout << " Date adaugate: " << statsAntrenamente.getNumarElemente() << " luni\n";
+        std::cout << statsAntrenamente << "\n";
+
+        std::cout << "\n--- ANALIZA AVANSATA ---\n";
+        std::cout << "Tendinta calorii (prim vs ultim): "
+                  << statsCalorii.calculeazaTendinta() << "%\n";
+
+        double targetCalorii = 500.0;
+        size_t zilePesteTarget = statsCalorii.numaraDepasiri(targetCalorii);
+        std::cout << "Zile cu peste " << targetCalorii << " kcal: "
+                  << zilePesteTarget << "/" << caloriiSaptamana.size() << "\n";
+
+        auto caloriiInterval = statsCalorii.filtreazaInterval(400.0, 550.0);
+        std::cout << "Zile cu calorii in [400-550]: " << caloriiInterval.size() << "\n";
+
+        try {
+            StatisticiCalculator<double> statsGol("Date Goale");
+            (void)statsGol.calculeazaMedie();
+        } catch (const std::runtime_error& e) {
+            std::cout << "Exceptie prinsa pentru lista goala: " << e.what() << "\n";
+        }
+
+    } catch (const std::exception& e) {
+        std::cout << "x Eroare Template Class: " << e.what() << "\n";
+    }
+
+    // ========== 4. TEMPLATE FUNCTIONS ==========
+    std::cout << "\n\n--- 4. TEMPLATE FUNCTIONS ---\n";
+    std::cout << "Testare functii template globale...\n";
+
+    try {
+        std::cout << "\n--- INSTANTIERE FUNCTIE 1: compara2Colectii<double> ---\n";
+
+        StatisticiCalculator<double> statsLuna1("Calorii Luna 1");
+        statsLuna1.adaugaMultiple({450.0, 520.0, 380.0, 610.0, 490.0});
+
+        StatisticiCalculator<double> statsLuna2("Calorii Luna 2");
+        statsLuna2.adaugaMultiple({480.0, 550.0, 420.0, 640.0, 510.0});
+
+        compara2Colectii(statsLuna1, statsLuna2, "Luna Ianuarie", "Luna Februarie");
+
+        std::cout << "\n--- INSTANTIERE FUNCTIE 2: calculeazaProgresProcentual<int> ---\n";
+
+        int greutateInitiala = 90;
+        int greutateCurenta = 82;
+        int greutateTinta = 75;
+
+        double progres = calculeazaProgresProcentual(greutateInitiala, greutateCurenta, greutateTinta);
+
+        std::cout << "Obiectiv Slabire:\n";
+        std::cout << "  Start: " << greutateInitiala << " kg\n";
+        std::cout << "  Curent: " << greutateCurenta << " kg\n";
+        std::cout << "  Tinta: " << greutateTinta << " kg\n";
+        std::cout << "  PROGRES: " << progres << "%\n";
+
+        std::cout << "\n--- INSTANTIERE FUNCTIE 3: calculeazaProgresProcentual<double> ---\n";
+
+        double distantaInitiala = 0.0;
+        double distantaCurenta = 21.5;
+        double distantaTinta = 42.0;
+
+        double progresMaraton = calculeazaProgresProcentual(distantaInitiala, distantaCurenta, distantaTinta);
+
+        std::cout << "Pregatire Maraton:\n";
+        std::cout << "  Start: " << distantaInitiala << " km\n";
+        std::cout << "  Curent: " << distantaCurenta << " km\n";
+        std::cout << "  Tinta: " << distantaTinta << " km\n";
+        std::cout << "  PROGRES: " << progresMaraton << "%\n";
+
+    } catch (const std::exception& e) {
+        std::cout << "x Eroare Template Functions: " << e.what() << "\n";
+    }
+
+    // ========== 5. INTEGRARE COMPLETA ==========
+    std::cout << "\n\n--- 5. INTEGRARE PATTERNS + TEMPLATES ---\n";
+    std::cout << "Exemplu real: Urmarire progres utilizator cu toate componentele...\n";
+
+    try {
+        auto planIntegrat = PlanFactory::creazaPlan(
+            TipPlanEnum::SLABIRE,
+            "Program Integrat de Slabire",
+            3,
+            NivelExperienta::INTERMEDIAR,
+            4
+        );
+
+        SubiectProgres sistemNotificari;
+        auto notificari = std::make_shared<NotificareConsola>("Sistem Integrat");
+        auto milestone = std::make_shared<DetectorMilestone>();
+        sistemNotificari.atasare(notificari);
+        sistemNotificari.atasare(milestone);
+
+        StatisticiCalculator<double> trackingCalorii("Urmarire Calorii");
+
+        std::cout << "\n--- SIMULARE PROGRES 4 SAPTAMANI ---\n";
+
+        std::vector<std::vector<double>> caloriiPeSaptamani = {
+            {520, 480, 510, 490, 505, 495, 500},
+            {510, 475, 500, 485, 495, 490, 480},
+            {490, 465, 485, 470, 480, 475, 470},
+            {475, 455, 470, 460, 465, 460, 450}
+        };
+
+        int greutateStart = 85;
+        int greutateCurenta = 85;
+        int greutateTinta = 78;
+
+        for (size_t sapt = 0; sapt < caloriiPeSaptamani.size(); ++sapt) {
+            std::cout << "\n>>> SAPTAMANA " << (sapt + 1) << " <<<\n";
+
+            trackingCalorii.adaugaMultiple(caloriiPeSaptamani[sapt]);
+            greutateCurenta -= 2;
+
+            double progresTotal = calculeazaProgresProcentual(
+                greutateStart, greutateCurenta, greutateTinta
+            );
+
+            std::string mesaj = "Saptamana " + std::to_string(sapt + 1) +
+                              " completata! Greutate: " + std::to_string(greutateCurenta) + " kg";
+            sistemNotificari.setProgres(progresTotal, mesaj, "SAPTAMANA");
+
+            planIntegrat->executaSaptamana(static_cast<int>(sapt + 1));
+        }
+
+        std::cout << "\n\n===========================================================\n\n";
+        std::cout << "  Plan folosit: " << planIntegrat->getNumePlan() << "\n";
+        std::cout << "  Greutate finala: " << greutateCurenta << " kg (Start: "
+                  << greutateStart << " kg)\n";
+        std::cout << "  Progres obiectiv: " << calculeazaProgresProcentual(
+                        greutateStart, greutateCurenta, greutateTinta) << "%\n";
+        std::cout << "===========================================================\n";
+
+        trackingCalorii.afiseazaRaportComplet();
+
+    } catch (const std::exception& e) {
+        std::cout << "x Eroare Integrare: " << e.what() << "\n";
+    }
+
+    std::cout << "\n=========================================================\n";
+    std::cout << "||          TOATE TESTELE TEMA 3 FINALIZATE!          ||\n";
+    std::cout << "===========================================================\n";
+}
+
 /*
     CARDIO: alergare, ciclism, inot, burpees;
     FORTA: flotari, abdomene, impins la piept, biceps curl;
@@ -374,5 +634,7 @@ int main() {
     std::cout << "          TOATE METODELE AU FOST VERIFICATE!\n";
     std::cout << "======================================================\n";
 
+    /// TEST T3
+    testeazaTema3();
     return 0;
 }
